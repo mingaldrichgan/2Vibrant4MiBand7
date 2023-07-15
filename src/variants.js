@@ -39,10 +39,10 @@ const EDIT_BARS = {
     value: 5,
     dataType: hmUI.data_type.DISTANCE,
     progressDataType: hmUI.data_type.STEP,
-    dotImage: "fonts/sm_lightblue/11.png",
+    dotImage: "fonts/sm_purple/11.png",
     url: "activityAppScreen",
-    font: "sm_lightblue",
-    color: 0x0dd3ff,
+    font: "sm_purple",
+    color: 0x5d0dff,
   },
   stress: {
     value: 6,
@@ -76,10 +76,10 @@ const EDIT_WIDGETS = {
     value: 0,
     url: "WeatherScreen",
     render: (y) => {
-      hmUI.createWidget(hmUI.widget.IMG_LEVEL, {
+      const weatherImage = hmUI.createWidget(hmUI.widget.IMG_LEVEL, {
         x: 74,
         y,
-        image_array: mkImgArray("widgets/weather", 29),
+        image_array: mkImgArray("widgets/weather", 29, isNight()),
         image_length: 29,
         type: hmUI.data_type.WEATHER_CURRENT,
         show_level: hmUI.show_level.ONLY_NORMAL,
@@ -99,6 +99,21 @@ const EDIT_WIDGETS = {
         unit_en: "fonts/du.png",
         unit_sc: "fonts/du.png",
         unit_tc: "fonts/du.png",
+      });
+
+      const updateImageArray = (change) => {
+        weatherImage.setProperty(hmUI.prop.MORE, {
+          image_array: mkImgArray("widgets/weather", 29, change)
+        });
+      };
+
+      var prevNight = false;
+      timer.createTimer(0, 600000, () => {
+        const currentNight = isNight();
+        if (currentNight != prevNight) {
+          updateImageArray(currentNight);
+          prevNight = currentNight;
+        }
       });
     }
   },
