@@ -39,10 +39,10 @@ const EDIT_BARS = {
     value: 5,
     dataType: hmUI.data_type.DISTANCE,
     progressDataType: hmUI.data_type.STEP,
-    dotImage: "fonts/sm_purple/11.png",
+    dotImage: "fonts/sm_lightblue/11.png",
     url: "activityAppScreen",
-    font: "sm_purple",
-    color: 0x5d0dff,
+    font: "sm_lightblue",
+    color: 0x0dd3ff,
   },
   stress: {
     value: 6,
