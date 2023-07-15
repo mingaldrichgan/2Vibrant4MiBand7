@@ -108,7 +108,7 @@ const EDIT_WIDGETS = {
       };
 
       var prevNight = false;
-      timer.createTimer(0, 600000, () => {
+      timer.createTimer(0, 60000, () => {
         const currentNight = isNight();
         if (currentNight != prevNight) {
           updateImageArray(currentNight);
