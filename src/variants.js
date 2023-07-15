@@ -101,19 +101,16 @@ const EDIT_WIDGETS = {
         unit_tc: "fonts/du.png",
       });
 
-      const updateImageArray = (change) => {
-        weatherImage.setProperty(hmUI.prop.MORE, {
-          image_array: mkImgArray("widgets/weather", 29, change)
-        });
-      };
-
-      var prevNight = false;
-      timer.createTimer(0, 60000, () => {
+      var prevNight;
+      const weatherTimer = timer.createTimer(0, 250, () => {
         const currentNight = isNight();
         if (currentNight != prevNight) {
-          updateImageArray(currentNight);
+          weatherImage.setProperty(hmUI.prop.MORE, {
+            image_array: mkImgArray("widgets/weather", 29, currentNight)
+          });
           prevNight = currentNight;
         }
+        timer.stopTimer(weatherTimer)
       });
     }
   },
