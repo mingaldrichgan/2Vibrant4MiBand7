@@ -101,17 +101,15 @@ const EDIT_WIDGETS = {
         unit_tc: "fonts/du.png",
       });
 
-      var prevNight;
-      const weatherTimer = timer.createTimer(0, 250, () => {
-        const currentNight = isNight();
+      const weatherTimer = timer.createTimer(350, 2300, () => {
+        var currentNight = isNight();
         if (currentNight != prevNight) {
           weatherImage.setProperty(hmUI.prop.MORE, {
             image_array: mkImgArray("widgets/weather", 29, currentNight)
           });
           prevNight = currentNight;
         }
-        timer.stopTimer(weatherTimer)
-      });
+      }, {});
     }
   },
   heartrate: {
