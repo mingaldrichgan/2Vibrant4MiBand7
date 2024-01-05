@@ -49,12 +49,12 @@ function renderDate() {
     month_unit_en: `digital/date/${month_unit}.png`,
     month_unit_sc: 'digital/date/11.png',
     month_unit_tc: 'digital/date/11.png',
-    month_zero: 1,
+    month_zero: 0,
     day_follow: 1,
     day_en_array: fontDate,
     day_sc_array: fontDate,
     day_tc_array: fontDate,
-    day_zero: 1
+    day_zero: 0
   });
 
   const fontWeekday = mkImgArray('weekday', 7);
