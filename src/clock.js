@@ -9,7 +9,7 @@ function renderClockWidget(isAOD) {
     h: 200,
     select_image: "edit/main.png",
     un_select_image: "edit/main_w.png",
-    default_type: 0,
+    default_type: 1,
     optional_types: [
       { type: 0, preview: "edit/clock_analog.png" },
       { type: 1, preview: "edit/clock_digital.png" },
