@@ -21,9 +21,7 @@
       "path": "watchface/index"
     }
   },
-  "permissions": [
-    "gps"
-  ],
+  "permissions": ["gps"],
   "runtime": {
     "apiVersion": {
       "compatible": "1.0.0",

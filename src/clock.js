@@ -13,7 +13,7 @@ function renderClockWidget(isAOD) {
     optional_types: [
       { type: 0, preview: "edit/clock_analog.png" },
       { type: 1, preview: "edit/clock_digital.png" },
-      { type: 2, preview: "edit/clock_gray.png" }
+      { type: 2, preview: "edit/clock_gray.png" },
     ],
     count: 3,
     tips_BG: "",
@@ -22,8 +22,8 @@ function renderClockWidget(isAOD) {
     tips_width: 1,
   });
 
-  if(isEdit) return;
-  
+  if (isEdit) return;
+
   const value = editor.getProperty(hmUI.prop.CURRENT_TYPE);
 
   switch (value) {
@@ -31,10 +31,10 @@ function renderClockWidget(isAOD) {
       isAOD ? _renderTimeDigital_aod() : _renderTimeDigital();
       break;
     case 2:
-      isAOD ? _renderTimeAnalog_aod('gray') : _renderTimeAnalog('gray');
-      break
+      isAOD ? _renderTimeAnalog_aod("gray") : _renderTimeAnalog("gray");
+      break;
     default:
-      isAOD ? _renderTimeAnalog_aod('white') : _renderTimeAnalog('white');
+      isAOD ? _renderTimeAnalog_aod("white") : _renderTimeAnalog("white");
   }
 }
 

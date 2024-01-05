@@ -56,18 +56,18 @@ const EDIT_BARS = {
     dataType: hmUI.data_type.STAND,
     url: "activityAppScreen",
     font: "sm_green",
-    color: 0x36cf6e
+    color: 0x36cf6e,
   },
   spo2: {
     value: 8,
     dataType: hmUI.data_type.SPO2,
     url: "spo_HomeScreen",
     font: "sm_red",
-    color: 0xff0000
+    color: 0xff0000,
   },
   void: {
-    value: 99
-  }
+    value: 99,
+  },
 };
 
 const FONT_WHITE = mkImgArray("fonts/white");
@@ -101,16 +101,21 @@ const EDIT_WIDGETS = {
         unit_tc: "fonts/du.png",
       });
 
-      const weatherTimer = timer.createTimer(350, 2300, () => {
-        var currentNight = isNight();
-        if (currentNight != prevNight) {
-          weatherImage.setProperty(hmUI.prop.MORE, {
-            image_array: mkImgArray("widgets/weather", 29, currentNight)
-          });
-          prevNight = currentNight;
-        }
-      }, {});
-    }
+      const weatherTimer = timer.createTimer(
+        350,
+        2300,
+        () => {
+          var currentNight = isNight();
+          if (currentNight != prevNight) {
+            weatherImage.setProperty(hmUI.prop.MORE, {
+              image_array: mkImgArray("widgets/weather", 29, currentNight),
+            });
+            prevNight = currentNight;
+          }
+        },
+        {},
+      );
+    },
   },
   heartrate: {
     value: 1,
@@ -186,9 +191,9 @@ const EDIT_WIDGETS = {
       hmUI.createWidget(hmUI.widget.IMG, {
         x: 48,
         y,
-        src: "widgets/demo/countdown.png"
+        src: "widgets/demo/countdown.png",
       });
-    }
+    },
   },
   stopwatch: {
     value: 10,
@@ -197,16 +202,16 @@ const EDIT_WIDGETS = {
       hmUI.createWidget(hmUI.widget.IMG, {
         x: 48,
         y,
-        src: "widgets/demo/stopwatch.png"
+        src: "widgets/demo/stopwatch.png",
       });
-    }
+    },
   },
   tb_timer: {
     value: 11,
     url: () => {
       hmApp.startApp({
         appid: 33904,
-        url: 'page/TimerSetScreen'
+        url: "page/TimerSetScreen",
       });
     },
     render: (y) => {
@@ -214,7 +219,7 @@ const EDIT_WIDGETS = {
         x: 74,
         y,
         src: `widgets/icon/tb_timer.png`,
-        show_level: hmUI.show_level.ONLY_NORMAL
+        show_level: hmUI.show_level.ONLY_NORMAL,
       });
       const view = hmUI.createWidget(hmUI.widget.TEXT_IMG, {
         x: 48,
@@ -223,7 +228,7 @@ const EDIT_WIDGETS = {
         h: 30,
         align_h: hmUI.align.CENTER_H,
         negative_image: "fonts/fu.png",
-        dot_image: 'fonts/point.png',
+        dot_image: "fonts/point.png",
         show_level: hmUI.show_level.ONLY_NORMAL,
         text: getTbTimerState(),
         font_array: FONT_WHITE,
@@ -232,7 +237,7 @@ const EDIT_WIDGETS = {
       timer.createTimer(0, 500, () => {
         view.setProperty(hmUI.prop.TEXT, getTbTimerState());
       });
-    }
+    },
   },
   sleep: {
     value: 12,
@@ -240,7 +245,7 @@ const EDIT_WIDGETS = {
     config: {
       type: hmUI.data_type.SLEEP,
       font_array: FONT_WHITE,
-      dot_image: 'fonts/white/10.png',
+      dot_image: "fonts/white/10.png",
     },
   },
   alarm: {
@@ -253,6 +258,6 @@ const EDIT_WIDGETS = {
     },
   },
   void: {
-    value: 99
-  }
+    value: 99,
+  },
 };

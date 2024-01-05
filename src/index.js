@@ -3,8 +3,7 @@ let __$$module$$__ = __$$app$$__.current;
 __$$module$$__.module = DeviceRuntimeCore.WatchFace({
   onInit() {
     const currentScreen = hmSetting.getScreenType();
-    switch(currentScreen) {
-
+    switch (currentScreen) {
       case hmSetting.screen_type.AOD:
         renderClockWidget(true);
         return;
@@ -22,7 +21,6 @@ __$$module$$__.module = DeviceRuntimeCore.WatchFace({
         renderClockWidget(false);
 
         initTapZones(widgetUrls, barUrls);
-
     }
-  }
+  },
 });

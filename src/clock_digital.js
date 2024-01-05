@@ -4,7 +4,7 @@ const wdPosX = {
   "en-US": 104,
   "es-ES": 104,
   "zh-CN": 111,
-  "zh-TW": 111
+  "zh-TW": 111,
 };
 
 function _renderTimeDigital_aod() {
@@ -14,11 +14,11 @@ function _renderTimeDigital_aod() {
     hour_startX: 26,
     hour_startY: 125,
     hour_zero: 1,
-    hour_array: mkImgArray('digital/clock/aod'),
+    hour_array: mkImgArray("digital/clock/aod"),
     minute_startX: 26,
     minute_startY: 230,
     minute_zero: 1,
-    minute_array: mkImgArray('digital/clock/aod')
+    minute_array: mkImgArray("digital/clock/aod"),
   });
 }
 
@@ -29,11 +29,11 @@ function _renderTimeDigital() {
     hour_startX: 26,
     hour_startY: 125,
     hour_zero: 1,
-    hour_array: mkImgArray('digital/clock/normal'),
+    hour_array: mkImgArray("digital/clock/normal"),
     minute_startX: 26,
     minute_startY: 230,
     minute_zero: 1,
-    minute_array: mkImgArray('digital/clock/normal')
+    minute_array: mkImgArray("digital/clock/normal"),
   });
 }
 
@@ -47,24 +47,24 @@ function renderDate() {
     month_sc_array: fontDate,
     month_tc_array: fontDate,
     month_unit_en: `digital/date/${month_unit}.png`,
-    month_unit_sc: 'digital/date/11.png',
-    month_unit_tc: 'digital/date/11.png',
+    month_unit_sc: "digital/date/11.png",
+    month_unit_tc: "digital/date/11.png",
     month_zero: 0,
     day_follow: 1,
     day_en_array: fontDate,
     day_sc_array: fontDate,
     day_tc_array: fontDate,
-    day_zero: 0
+    day_zero: 0,
   });
 
-  const fontWeekday = mkImgArray('weekday', 7);
+  const fontWeekday = mkImgArray("weekday", 7);
   const x = wdPosX[osLang] ? wdPosX[osLang] : 120;
 
   hmUI.createWidget(hmUI.widget.IMG_WEEK, {
     x,
     y: 336,
     week_en: mkImgArray(`weekday/${osLang}`, 7),
-    week_sc: mkImgArray('weekday/zh-CN', 7),
-    week_tc: mkImgArray('weekday/zh-TW', 7)
+    week_sc: mkImgArray("weekday/zh-CN", 7),
+    week_tc: mkImgArray("weekday/zh-TW", 7),
   });
 }
