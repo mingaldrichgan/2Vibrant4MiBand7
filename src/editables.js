@@ -90,7 +90,7 @@ function renderBars(widgetKeys) {
       h: 136,
       select_image: `edit/${i}a.png`,
       un_select_image: `edit/${i}.png`,
-      default_type: i == 0 ? 3 : 0, // battery : steps
+      default_type: i == 0 ? 3 : 6, // battery : spo2
       optional_types: Object.keys(EDIT_BARS).map((key) => {
         const data = EDIT_BARS[key];
         return {
