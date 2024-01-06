@@ -143,7 +143,7 @@ function _drawBar(i, currentKey, currentData) {
   hmUI.createWidget(hmUI.widget.ARC_PROGRESS, {
     ...arcProps,
     color: [color % 256, (color >> 8) % 256, color >> 16] // [B, G, R]
-      .map((c) => c * 0.5) // half opacity
+      .map((c) => c / 3) // lower opacity
       .reduce((sum, c, i) => sum + (c << (8 * i)), 0),
     level: 100,
   });
