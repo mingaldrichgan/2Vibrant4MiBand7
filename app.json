@@ -1,14 +1,14 @@
 {
   "app": {
     "appId": 85859,
-    "appName": "Vibrant Rewrite",
+    "appName": "Vibrant 2",
     "appType": "watchface",
     "description": "",
     "icon": "preview.png",
     "vender": "mingaldrichgan",
     "version": {
-      "code": 1,
-      "name": "1.0"
+      "code": 2,
+      "name": "2.0"
     }
   },
   "configVersion": "v2",

@@ -79,21 +79,21 @@ function renderBars() {
   const urls = [];
   const isEdit = hmSetting.getScreenType() == hmSetting.screen_type.SETTINGS;
 
-  for (let i = 0; i < 4; i++) {
+  for (let i = 0; i < 2; i++) {
     const editView = hmUI.createWidget(hmUI.widget.WATCHFACE_EDIT_GROUP, {
       edit_id: 101 + i,
-      x: i % 2 == 1 ? 94 : 2,
-      y: i > 1 ? 352 : 4,
-      w: 96,
+      x: 0,
+      y: i == 0 ? 4 : 352,
+      w: 192,
       h: 136,
       select_image: `edit/${i}a.png`,
       un_select_image: `edit/${i}.png`,
-      default_type: i,
+      default_type: i == 0 ? 0 : 3, // steps : battery
       optional_types: Object.keys(EDIT_BARS).map((key) => {
         const data = EDIT_BARS[key];
         return {
           type: data.value,
-          preview: `bars/${i}/demo/${key}.png`,
+          preview: `bars/demo/${i}/${key}.png`,
         };
       }),
       count: Object.keys(EDIT_BARS).length,
@@ -127,36 +127,49 @@ function renderBars() {
 function _drawBar(i, currentKey, currentData) {
   if (i == 99) return;
 
-  // Draw BG
-  hmUI.createWidget(hmUI.widget.IMG, {
-    x: i % 2 == 1 ? 96 : 0,
-    y: i > 1 ? 364 : 0,
-    src: `bars/${i}/${currentKey}.png`,
+  const arcProps = {
+    center_x: 96,
+    center_y: i == 0 ? 96 : 392,
+    radius: 82,
+    start_angle: i == 0 ? -90 : 90,
+    end_angle: i == 0 ? 90 : 270,
+    line_width: 20,
     show_level: hmUI.show_level.ONLY_NORMAL,
+  };
+
+  const { color } = currentData;
+
+  // Draw BG
+  hmUI.createWidget(hmUI.widget.ARC_PROGRESS, {
+    ...arcProps,
+    color: [color % 256, (color >> 8) % 256, color >> 16] // [B, G, R]
+      .map((c) => c * 0.5) // half opacity
+      .reduce((sum, c, i) => sum + (c << (8 * i)), 0),
+    level: 100,
   });
 
-  // Draw ARC_PROGRESS
-  const view = hmUI.createWidget(hmUI.widget.ARC_PROGRESS, {
-    type: currentData.progressDataType
-      ? currentData.progressDataType
-      : currentData.dataType,
-    center_x: 96,
-    center_y: i > 1 ? 392 : 96,
-    radius: 82,
-    start_angle: i % 2 == 0 ? -90 : 90,
-    end_angle: [-12, 12, -168, 168][i],
-    line_width: 20,
-    color: currentData.color,
+  // Draw FG
+  hmUI.createWidget(hmUI.widget.ARC_PROGRESS, {
+    ...arcProps,
+    color,
+    type: currentData.dataType,
+  });
+
+  // Draw ICON
+  hmUI.createWidget(hmUI.widget.IMG, {
+    x: i == 0 ? 3 : 167,
+    y: i == 0 ? 100 : 370,
+    src: `bars/icon/${currentKey}.png`,
     show_level: hmUI.show_level.ONLY_NORMAL,
   });
 
   // Draw TEXT
   hmUI.createWidget(hmUI.widget.TEXT_IMG, {
-    x: i % 2 == 1 ? 96 : 4,
-    y: i > 1 ? 370 : 100,
+    x: i == 0 ? 96 : 4,
+    y: i == 0 ? 100 : 370,
     w: 92,
     font_array: mkImgArray(`fonts/${currentData.font}`),
-    align_h: i % 2 == 1 ? hmUI.align.RIGHT : hmUI.align.LEFT,
+    align_h: i == 0 ? hmUI.align.RIGHT : hmUI.align.LEFT,
     type: currentData.dataType,
     dot_image: currentData.dotImage,
     unit_en: currentData.unit,
