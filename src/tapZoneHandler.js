@@ -41,23 +41,14 @@ function initTapZones(widgetURLs, barURLs) {
       }
     }
 
-    // Bars
-    if (x < 96) {
-      if (y < 160) {
-        return _call(barURLs[0]); // top
-      } else if (y > 330) {
-        return _call(barURLs[2]); // bottom
-      } else {
-        _changeBrightness(-5); // center
-      }
+    if (y < 160) {
+      return _call(barURLs[0]); // top
+    } else if (y > 330) {
+      return _call(barURLs[2]); // bottom
+    } else if (x < 96) {
+      _changeBrightness(-5); // center left
     } else {
-      if (y < 160) {
-        return _call(barURLs[1]);
-      } else if (y > 330) {
-        return _call(barURLs[3]);
-      } else {
-        _changeBrightness(5); // center
-      }
+      _changeBrightness(5); // center right
     }
   });
 }
