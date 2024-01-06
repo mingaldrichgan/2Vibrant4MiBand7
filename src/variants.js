@@ -45,6 +45,7 @@ const EDIT_BARS = {
   spo2: {
     value: 6,
     dataType: hmUI.data_type.SPO2,
+    unit: "fonts/sm_red/10.png",
     url: "spo_HomeScreen",
     font: "sm_red",
     color: 0xff0000,
@@ -123,9 +124,9 @@ const EDIT_WIDGETS = {
     config: {
       type: hmUI.data_type.BATTERY,
       font_array: mkImgArray("fonts/green"),
-      unit_en: "fonts/present.png",
-      unit_sc: "fonts/present.png",
-      unit_tc: "fonts/present.png",
+      unit_en: "fonts/green/10.png",
+      unit_sc: "fonts/green/10.png",
+      unit_tc: "fonts/green/10.png",
     },
   },
   humidity: {
