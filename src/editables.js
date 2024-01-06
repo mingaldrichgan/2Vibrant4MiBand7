@@ -1,4 +1,5 @@
 function renderWidgets() {
+  const keys = [];
   const urls = [];
   const isEdit = hmSetting.getScreenType() == hmSetting.screen_type.SETTINGS;
 
@@ -11,7 +12,7 @@ function renderWidgets() {
       h: 78,
       select_image: "edit/center.png",
       un_select_image: "edit/center_w.png",
-      default_type: i,
+      default_type: i == 0 ? 0 : 5, // weather : steps
       optional_types: Object.keys(EDIT_WIDGETS).map((key) => {
         const data = EDIT_WIDGETS[key];
         return {
@@ -41,10 +42,11 @@ function renderWidgets() {
 
     const currentData = EDIT_WIDGETS[currentKey];
     _drawWidget(i, currentKey, currentData);
+    keys.push(currentKey);
     urls.push(currentData.url);
   }
 
-  return urls;
+  return [keys, urls];
 }
 
 function _drawWidget(i, currentKey, currentData) {
@@ -75,7 +77,7 @@ function _drawWidget(i, currentKey, currentData) {
   });
 }
 
-function renderBars() {
+function renderBars(widgetKeys) {
   const urls = [];
   const isEdit = hmSetting.getScreenType() == hmSetting.screen_type.SETTINGS;
 
@@ -88,7 +90,7 @@ function renderBars() {
       h: 136,
       select_image: `edit/${i}a.png`,
       un_select_image: `edit/${i}.png`,
-      default_type: i == 0 ? 0 : 3, // steps : battery
+      default_type: i == 0 ? 3 : 0, // battery : steps
       optional_types: Object.keys(EDIT_BARS).map((key) => {
         const data = EDIT_BARS[key];
         return {
@@ -117,14 +119,14 @@ function renderBars() {
     }
 
     const currentData = EDIT_BARS[currentKey];
-    _drawBar(i, currentKey, currentData);
+    _drawBar(i, currentKey, currentData, widgetKeys);
     urls.push(currentData.url);
   }
 
   return urls;
 }
 
-function _drawBar(i, currentKey, currentData) {
+function _drawBar(i, currentKey, currentData, widgetKeys) {
   if (i == 99) return;
 
   const arcProps = {
@@ -143,8 +145,8 @@ function _drawBar(i, currentKey, currentData) {
   hmUI.createWidget(hmUI.widget.ARC_PROGRESS, {
     ...arcProps,
     color: [color % 256, (color >> 8) % 256, color >> 16] // [B, G, R]
-      .map((c) => c / 3) // lower opacity
-      .reduce((sum, c, i) => sum + (c << (8 * i)), 0),
+      .map((value) => value / 3) // lower opacity
+      .reduce((sum, value, index) => sum + (value << (8 * index)), 0),
     level: 100,
   });
 
@@ -154,6 +156,8 @@ function _drawBar(i, currentKey, currentData) {
     color,
     type: currentData.dataType,
   });
+
+  if (currentKey === widgetKeys[i]) return;
 
   // Draw ICON
   hmUI.createWidget(hmUI.widget.IMG, {

@@ -15,8 +15,8 @@ __$$module$$__.module = DeviceRuntimeCore.WatchFace({
         return;
 
       default:
-        const barUrls = renderBars();
-        const widgetUrls = renderWidgets();
+        const [widgetKeys, widgetUrls] = renderWidgets();
+        const barUrls = renderBars(widgetKeys);
         renderStatus();
         renderClockWidget(false);
 
