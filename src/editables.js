@@ -12,7 +12,7 @@ function renderWidgets() {
       h: 78,
       select_image: "edit/center.png",
       un_select_image: "edit/center_w.png",
-      default_type: i == 0 ? 0 : 5, // weather : steps
+      default_type: i == 0 ? 0 : 14, // weather : spo2
       optional_types: Object.keys(EDIT_WIDGETS).map((key) => {
         const data = EDIT_WIDGETS[key];
         return {

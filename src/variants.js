@@ -56,6 +56,7 @@ const EDIT_BARS = {
 };
 
 const FONT_WHITE = mkImgArray("fonts/white");
+const FONT_RED = mkImgArray("fonts/red");
 const EDIT_WIDGETS = {
   weather: {
     value: 0,
@@ -107,7 +108,7 @@ const EDIT_WIDGETS = {
     url: "heart_app_Screen",
     config: {
       type: hmUI.data_type.HEART,
-      font_array: mkImgArray("fonts/red"),
+      font_array: FONT_RED,
     },
   },
   aqi: {
@@ -240,6 +241,17 @@ const EDIT_WIDGETS = {
       type: hmUI.data_type.ALARM_CLOCK,
       font_array: FONT_WHITE,
       padding: 1,
+    },
+  },
+  spo2: {
+    value: 14,
+    url: "spo_HomeScreen",
+    config: {
+      type: hmUI.data_type.SPO2,
+      font_array: FONT_RED,
+      unit_en: "fonts/red/10.png",
+      unit_sc: "fonts/red/10.png",
+      unit_tc: "fonts/red/10.png",
     },
   },
   void: {
