@@ -12,7 +12,7 @@ function renderWidgets() {
       h: 78,
       select_image: "edit/center.png",
       un_select_image: "edit/center_w.png",
-      default_type: i == 0 ? 0 : 14, // weather : spo2
+      default_type: i == 0 ? 0 : 5, // weather : steps
       optional_types: Object.keys(EDIT_WIDGETS).map((key) => {
         const data = EDIT_WIDGETS[key];
         return {
@@ -90,7 +90,7 @@ function renderBars(widgetKeys) {
       h: 136,
       select_image: `edit/${i}a.png`,
       un_select_image: `edit/${i}.png`,
-      default_type: i == 0 ? 3 : 6, // battery : spo2
+      default_type: i == 0 ? 3 : 0, // battery : steps
       optional_types: Object.keys(EDIT_BARS).map((key) => {
         const data = EDIT_BARS[key];
         return {
