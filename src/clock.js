@@ -9,10 +9,10 @@ function renderClockWidget(isAOD) {
     h: 200,
     select_image: "edit/main.png",
     un_select_image: "edit/main_w.png",
-    default_type: 1,
+    default_type: 0,
     optional_types: [
-      { type: 0, preview: "edit/clock_analog.png" },
-      { type: 1, preview: "edit/clock_digital.png" },
+      { type: 0, preview: "edit/clock_digital.png" },
+      { type: 1, preview: "edit/clock_outline.png" },
       { type: 2, preview: "edit/clock_gray.png" },
     ],
     count: 3,
@@ -28,13 +28,13 @@ function renderClockWidget(isAOD) {
 
   switch (value) {
     case 1:
-      isAOD ? _renderTimeDigital_aod() : _renderTimeDigital();
+      isAOD ? _renderTimeAnalog_aod() : _renderTimeAnalog("outline");
       break;
     case 2:
-      isAOD ? _renderTimeAnalog_aod("gray") : _renderTimeAnalog("gray");
+      isAOD ? _renderTimeAnalog_aod() : _renderTimeAnalog("gray");
       break;
     default:
-      isAOD ? _renderTimeAnalog_aod("white") : _renderTimeAnalog("white");
+      isAOD ? _renderTimeDigital_aod() : _renderTimeDigital();
   }
 }
 
@@ -43,7 +43,7 @@ function _renderTimeAnalog(skinName) {
   hmUI.createWidget(hmUI.widget.IMG, {
     x: 0,
     y: 0,
-    src: `pointer/${skinName}/bg.png`,
+    src: `pointer/bg_${skinName}.png`,
     show_level: hmUI.show_level.ONLY_NORMAL | hmUI.show_level.ONLY_AOD,
   });
 
@@ -71,12 +71,12 @@ function _renderTimeAnalog(skinName) {
   });
 }
 
-function _renderTimeAnalog_aod(skinName) {
+function _renderTimeAnalog_aod() {
   // BG
   hmUI.createWidget(hmUI.widget.IMG, {
     x: 0,
     y: 0,
-    src: `pointer/${skinName}/bg2.png`,
+    src: `pointer/bg_aod.png`,
     show_level: hmUI.show_level.ONLY_NORMAL | hmUI.show_level.ONLY_AOD,
   });
 
