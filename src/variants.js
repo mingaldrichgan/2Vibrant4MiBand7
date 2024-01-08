@@ -1,32 +1,32 @@
 const EDIT_BARS = {
-  steps: {
+  battery: {
     value: 0,
+    dataType: hmUI.data_type.BATTERY,
+    unit: "fonts/sm_green/10.png",
+    url: "Settings_batteryManagerScreen",
+    font: "sm_green",
+    color: 0x02fa7a,
+  },
+  steps: {
+    value: 1,
     dataType: hmUI.data_type.STEP,
     url: "activityAppScreen",
     font: "sm_yellow",
     color: 0xffe30b,
   },
   consume: {
-    value: 1,
+    value: 2,
     dataType: hmUI.data_type.CAL,
     url: "activityAppScreen",
     font: "sm_orange",
     color: 0xff8a00,
   },
   pai: {
-    value: 2,
+    value: 3,
     dataType: hmUI.data_type.PAI_WEEKLY,
     url: "pai_app_Screen",
     font: "sm_blue",
     color: 0x5f64fa,
-  },
-  battery: {
-    value: 3,
-    dataType: hmUI.data_type.BATTERY,
-    unit: "fonts/sm_green/10.png",
-    url: false,
-    font: "sm_green",
-    color: 0x02fa7a,
   },
   heartrate: {
     value: 4,
@@ -57,6 +57,7 @@ const EDIT_BARS = {
 
 const FONT_WHITE = mkImgArray("fonts/white");
 const FONT_RED = mkImgArray("fonts/red");
+const FONT_GREEN = mkImgArray("fonts/green");
 const EDIT_WIDGETS = {
   weather: {
     value: 0,
@@ -103,51 +104,86 @@ const EDIT_WIDGETS = {
       );
     },
   },
-  heartrate: {
-    value: 1,
-    url: "heart_app_Screen",
-    config: {
-      type: hmUI.data_type.HEART,
-      font_array: FONT_RED,
-    },
-  },
-  aqi: {
-    value: 2,
-    url: "WeatherScreen",
-    config: {
-      type: hmUI.data_type.AQI,
-      font_array: FONT_WHITE,
-    },
-  },
   battery: {
-    value: 3,
-    url: "",
+    value: 1,
+    url: "Settings_batteryManagerScreen",
     config: {
       type: hmUI.data_type.BATTERY,
-      font_array: mkImgArray("fonts/green"),
+      font_array: FONT_GREEN,
       unit_en: "fonts/green/10.png",
       unit_sc: "fonts/green/10.png",
       unit_tc: "fonts/green/10.png",
     },
   },
-  humidity: {
-    value: 4,
-    url: "WeatherScreen",
-    config: {
-      type: hmUI.data_type.HUMIDITY,
-      font_array: mkImgArray("fonts/blue"),
-    },
-  },
   steps: {
-    value: 5,
+    value: 2,
     url: "activityAppScreen",
     config: {
       type: hmUI.data_type.STEP,
       font_array: mkImgArray("fonts/yellow"),
     },
   },
-  sunrise: {
+  consume: {
+    value: 3,
+    url: "activityAppScreen",
+    config: {
+      type: hmUI.data_type.CAL,
+      font_array: mkImgArray("fonts/orange"),
+    },
+  },
+  pai: {
+    value: 4,
+    url: "pai_app_Screen",
+    config: {
+      type: hmUI.data_type.PAI_WEEKLY,
+      font_array: mkImgArray("fonts/blue"),
+    },
+  },
+  heartrate: {
+    value: 5,
+    url: "heart_app_Screen",
+    config: {
+      type: hmUI.data_type.HEART,
+      font_array: FONT_RED,
+    },
+  },
+  stand: {
     value: 6,
+    url: "activityAppScreen",
+    config: {
+      type: hmUI.data_type.STAND,
+      font_array: FONT_GREEN,
+    },
+  },
+  spo2: {
+    value: 7,
+    url: "spo_HomeScreen",
+    config: {
+      type: hmUI.data_type.SPO2,
+      font_array: FONT_RED,
+      unit_en: "fonts/red/10.png",
+      unit_sc: "fonts/red/10.png",
+      unit_tc: "fonts/red/10.png",
+    },
+  },
+  aqi: {
+    value: 8,
+    url: "WeatherScreen",
+    config: {
+      type: hmUI.data_type.AQI,
+      font_array: FONT_WHITE,
+    },
+  },
+  humidity: {
+    value: 9,
+    url: "WeatherScreen",
+    config: {
+      type: hmUI.data_type.HUMIDITY,
+      font_array: mkImgArray("fonts/cyan"),
+    },
+  },
+  sunrise: {
+    value: 10,
     url: "WeatherScreen",
     config: {
       type: hmUI.data_type.SUN_RISE,
@@ -155,7 +191,7 @@ const EDIT_WIDGETS = {
     },
   },
   sunset: {
-    value: 7,
+    value: 11,
     url: "WeatherScreen",
     config: {
       type: hmUI.data_type.SUN_SET,
@@ -163,7 +199,7 @@ const EDIT_WIDGETS = {
     },
   },
   uvi: {
-    value: 8,
+    value: 12,
     url: "WeatherScreen",
     config: {
       type: hmUI.data_type.UVI,
@@ -171,7 +207,7 @@ const EDIT_WIDGETS = {
     },
   },
   countdown: {
-    value: 9,
+    value: 13,
     url: "CountdownAppScreen",
     render: (y) => {
       hmUI.createWidget(hmUI.widget.IMG, {
@@ -182,7 +218,7 @@ const EDIT_WIDGETS = {
     },
   },
   stopwatch: {
-    value: 10,
+    value: 14,
     url: "StopWatchScreen",
     render: (y) => {
       hmUI.createWidget(hmUI.widget.IMG, {
@@ -193,7 +229,7 @@ const EDIT_WIDGETS = {
     },
   },
   tb_timer: {
-    value: 11,
+    value: 15,
     url: () => {
       hmApp.startApp({
         appid: 33904,
@@ -226,7 +262,7 @@ const EDIT_WIDGETS = {
     },
   },
   sleep: {
-    value: 12,
+    value: 16,
     url: "Sleep_HomeScreen",
     config: {
       type: hmUI.data_type.SLEEP,
@@ -235,23 +271,12 @@ const EDIT_WIDGETS = {
     },
   },
   alarm: {
-    value: 13,
+    value: 17,
     url: "AlarmInfoScreen",
     config: {
       type: hmUI.data_type.ALARM_CLOCK,
       font_array: FONT_WHITE,
       padding: 1,
-    },
-  },
-  spo2: {
-    value: 14,
-    url: "spo_HomeScreen",
-    config: {
-      type: hmUI.data_type.SPO2,
-      font_array: FONT_RED,
-      unit_en: "fonts/red/10.png",
-      unit_sc: "fonts/red/10.png",
-      unit_tc: "fonts/red/10.png",
     },
   },
   void: {
