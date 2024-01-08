@@ -34,7 +34,7 @@ function renderClockWidget(isAOD) {
       isAOD ? _renderTimeAnalog_aod() : _renderTimeAnalog("gray");
       break;
     default:
-      isAOD ? _renderTimeDigital_aod() : _renderTimeDigital();
+      _renderTimeDigital(isAOD);
   }
 }
 

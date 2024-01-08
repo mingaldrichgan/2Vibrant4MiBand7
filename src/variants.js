@@ -2,7 +2,7 @@ const EDIT_BARS = {
   battery: {
     value: 0,
     dataType: hmUI.data_type.BATTERY,
-    unit: "fonts/sm_green/10.png",
+    unit: "fonts/sm_green/percent.png",
     url: "Settings_batteryManagerScreen",
     font: "sm_green",
     color: 0x02fa7a,
@@ -45,7 +45,7 @@ const EDIT_BARS = {
   spo2: {
     value: 6,
     dataType: hmUI.data_type.SPO2,
-    unit: "fonts/sm_red/10.png",
+    unit: "fonts/sm_red/percent.png",
     url: "spo_HomeScreen",
     font: "sm_red",
     color: 0xff0000,
@@ -78,14 +78,14 @@ const EDIT_WIDGETS = {
         w: 96,
         h: 30,
         align_h: hmUI.align.CENTER_H,
-        invalid_image: "fonts/null.png",
-        negative_image: "fonts/fu.png",
+        invalid_image: "fonts/white/null.png",
+        negative_image: "fonts/white/minus.png",
         show_level: hmUI.show_level.ONLY_NORMAL,
         type: hmUI.data_type.WEATHER_CURRENT,
         font_array: FONT_WHITE,
-        unit_en: "fonts/du.png",
-        unit_sc: "fonts/du.png",
-        unit_tc: "fonts/du.png",
+        unit_en: "fonts/white/degree.png",
+        unit_sc: "fonts/white/degree.png",
+        unit_tc: "fonts/white/degree.png",
       });
 
       const weatherTimer = timer.createTimer(
@@ -110,9 +110,9 @@ const EDIT_WIDGETS = {
     config: {
       type: hmUI.data_type.BATTERY,
       font_array: FONT_GREEN,
-      unit_en: "fonts/green/10.png",
-      unit_sc: "fonts/green/10.png",
-      unit_tc: "fonts/green/10.png",
+      unit_en: "fonts/green/percent.png",
+      unit_sc: "fonts/green/percent.png",
+      unit_tc: "fonts/green/percent.png",
     },
   },
   steps: {
@@ -161,9 +161,9 @@ const EDIT_WIDGETS = {
     config: {
       type: hmUI.data_type.SPO2,
       font_array: FONT_RED,
-      unit_en: "fonts/red/10.png",
-      unit_sc: "fonts/red/10.png",
-      unit_tc: "fonts/red/10.png",
+      unit_en: "fonts/red/percent.png",
+      unit_sc: "fonts/red/percent.png",
+      unit_tc: "fonts/red/percent.png",
     },
   },
   aqi: {
@@ -188,6 +188,7 @@ const EDIT_WIDGETS = {
     config: {
       type: hmUI.data_type.SUN_RISE,
       font_array: FONT_WHITE,
+      dot_image: "fonts/white/colon.png",
     },
   },
   sunset: {
@@ -196,6 +197,7 @@ const EDIT_WIDGETS = {
     config: {
       type: hmUI.data_type.SUN_SET,
       font_array: FONT_WHITE,
+      dot_image: "fonts/white/colon.png",
     },
   },
   uvi: {
@@ -249,8 +251,8 @@ const EDIT_WIDGETS = {
         w: 96,
         h: 30,
         align_h: hmUI.align.CENTER_H,
-        negative_image: "fonts/fu.png",
-        dot_image: "fonts/point.png",
+        negative_image: "fonts/white/minus.png",
+        dot_image: "fonts/white/colon.png",
         show_level: hmUI.show_level.ONLY_NORMAL,
         text: getTbTimerState(),
         font_array: FONT_WHITE,
@@ -267,7 +269,7 @@ const EDIT_WIDGETS = {
     config: {
       type: hmUI.data_type.SLEEP,
       font_array: FONT_WHITE,
-      dot_image: "fonts/white/10.png",
+      dot_image: "fonts/white/dot.png",
     },
   },
   alarm: {
@@ -275,6 +277,7 @@ const EDIT_WIDGETS = {
     url: "AlarmInfoScreen",
     config: {
       type: hmUI.data_type.ALARM_CLOCK,
+      dot_image: "fonts/white/colon.png",
       font_array: FONT_WHITE,
       padding: 1,
     },

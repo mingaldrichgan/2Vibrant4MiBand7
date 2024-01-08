@@ -69,9 +69,8 @@ function _drawWidget(i, currentKey, currentData) {
     w: 96,
     h: 30,
     align_h: hmUI.align.CENTER_H,
-    invalid_image: "fonts/null.png",
-    negative_image: "fonts/fu.png",
-    dot_image: "fonts/point.png",
+    invalid_image: "fonts/white/null.png",
+    negative_image: "fonts/white/minus.png",
     show_level: hmUI.show_level.ONLY_NORMAL,
     ...currentData.config,
   });
