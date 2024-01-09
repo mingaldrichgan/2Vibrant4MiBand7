@@ -130,7 +130,7 @@ function _drawBar(i, currentKey, currentData, widgetKeys) {
 
   const arcProps = {
     center_x: 96,
-    center_y: i == 0 ? 96 : 392,
+    center_y: i == 0 ? 100 : 392,
     radius: 82,
     start_angle: i == 0 ? -90 : 90,
     end_angle: i == 0 ? 90 : 270,
@@ -161,7 +161,7 @@ function _drawBar(i, currentKey, currentData, widgetKeys) {
   // Draw ICON
   hmUI.createWidget(hmUI.widget.IMG, {
     x: i == 0 ? 3 : 167,
-    y: i == 0 ? 100 : 370,
+    y: i == 0 ? 104 : 368,
     src: `bars/icon/${currentKey}.png`,
     show_level: hmUI.show_level.ONLY_NORMAL,
   });
@@ -169,7 +169,7 @@ function _drawBar(i, currentKey, currentData, widgetKeys) {
   // Draw TEXT
   hmUI.createWidget(hmUI.widget.TEXT_IMG, {
     x: i == 0 ? 96 : 4,
-    y: i == 0 ? 100 : 370,
+    y: i == 0 ? 102 : 370,
     w: 92,
     font_array: mkImgArray(`fonts/${currentData.font}`),
     align_h: i == 0 ? hmUI.align.RIGHT : hmUI.align.LEFT,
