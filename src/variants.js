@@ -1,74 +1,60 @@
-const EDIT_BARS = {
+const COLORS = {
+  blue: 0x5f64fa,
+  cyan: 0x09d3ff,
+  green: 0x02fa7a,
+  orange: 0xff8a00,
+  red: 0xff0038,
+  teal: 0x00bd9d,
+  yellow: 0xffe30b,
+};
+
+const EDIT_BARS = withType({
   battery: {
-    value: 0,
-    dataType: hmUI.data_type.BATTERY,
-    unit: "fonts/sm_green/percent.png",
+    unit: "percent",
     url: "Settings_batteryManagerScreen",
-    font: "sm_green",
-    color: 0x02fa7a,
+    color: "green",
   },
-  steps: {
-    value: 1,
-    dataType: hmUI.data_type.STEP,
+  step: {
     url: "activityAppScreen",
-    font: "sm_yellow",
-    color: 0xffe30b,
+    color: "yellow",
   },
-  consume: {
-    value: 2,
-    dataType: hmUI.data_type.CAL,
+  distance: {
+    progressType: hmUI.data_type.STEP,
     url: "activityAppScreen",
-    font: "sm_orange",
-    color: 0xff8a00,
+    color: "yellow",
+    dotOrColon: "dot",
   },
-  pai: {
-    value: 3,
-    dataType: hmUI.data_type.PAI_WEEKLY,
+  cal: {
+    url: "activityAppScreen",
+    color: "orange",
+  },
+  pai_weekly: {
     url: "pai_app_Screen",
-    font: "sm_blue",
-    color: 0x5f64fa,
+    color: "blue",
   },
-  heartrate: {
-    value: 4,
-    dataType: hmUI.data_type.HEART,
+  heart: {
     url: "heart_app_Screen",
-    font: "sm_red",
-    color: 0xff0038,
+    color: "red",
   },
   stress: {
-    value: 5,
-    dataType: hmUI.data_type.STRESS,
     url: "StressHomeScreen",
-    font: "sm_teal",
-    color: 0x00bd9d,
+    color: "teal",
   },
   stand: {
-    value: 6,
-    dataType: hmUI.data_type.STAND,
     url: "activityAppScreen",
-    font: "sm_green",
-    color: 0x36cf6e,
+    color: "green",
   },
   spo2: {
-    value: 7,
-    dataType: hmUI.data_type.SPO2,
-    unit: "fonts/sm_red/percent.png",
+    unit: "percent",
     url: "spo_HomeScreen",
-    font: "sm_red",
-    color: 0xff0000,
+    color: "red",
   },
   humidity: {
-    value: 8,
-    dataType: hmUI.data_type.HUMIDITY,
-    unit: "fonts/sm_cyan/percent.png",
+    unit: "percent",
     url: "WeatherScreen",
-    font: "sm_cyan",
-    color: 0x09d3ff,
+    color: "cyan",
   },
-  void: {
-    value: 99,
-  },
-};
+});
 
 const FONT_WHITE = mkImgArray("fonts/white");
 const FONT_RED = mkImgArray("fonts/red");
@@ -115,7 +101,7 @@ const EDIT_WIDGETS = {
             prevNight = currentNight;
           }
         },
-        {},
+        {}
       );
     },
   },
@@ -312,3 +298,5 @@ const EDIT_WIDGETS = {
     value: 99,
   },
 };
+
+const EDIT_VOID = { type: 99 };

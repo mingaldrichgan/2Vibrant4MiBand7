@@ -81,6 +81,14 @@ function renderBars(widgetKeys) {
   const isEdit = hmSetting.getScreenType() == hmSetting.screen_type.SETTINGS;
 
   for (let i = 0; i < 2; i++) {
+    const optional_types = [
+      ...Object.entries(EDIT_BARS).map(([key, { type }]) => ({
+        type,
+        preview: `bars/demo/${i}/${key}.png`,
+      })),
+      EDIT_VOID,
+    ];
+
     const editView = hmUI.createWidget(hmUI.widget.WATCHFACE_EDIT_GROUP, {
       edit_id: 101 + i,
       x: 0,
@@ -89,15 +97,9 @@ function renderBars(widgetKeys) {
       h: 136,
       select_image: `edit/${i}a.png`,
       un_select_image: `edit/${i}.png`,
-      default_type: i,
-      optional_types: Object.keys(EDIT_BARS).map((key) => {
-        const data = EDIT_BARS[key];
-        return {
-          type: data.value,
-          preview: `bars/demo/${i}/${key}.png`,
-        };
-      }),
-      count: Object.keys(EDIT_BARS).length,
+      default_type: hmUI.data_type[i === 0 ? "BATTERY" : "STEP"],
+      optional_types,
+      count: optional_types.length,
       tips_BG: "",
       tips_x: -1000,
       tips_y: 0,
@@ -107,17 +109,11 @@ function renderBars(widgetKeys) {
     if (isEdit) continue;
 
     // Fetch current
-    const current = editView.getProperty(hmUI.prop.CURRENT_TYPE);
+    const currentType = editView.getProperty(hmUI.prop.CURRENT_TYPE);
+    const [currentKey, currentData] = Object.entries(EDIT_BARS).find(
+      ([, { type }]) => type === currentType
+    );
 
-    let currentKey = "steps";
-    for (let i in EDIT_BARS) {
-      if (EDIT_BARS[i].value === current) {
-        currentKey = i;
-        break;
-      }
-    }
-
-    const currentData = EDIT_BARS[currentKey];
     _drawBar(i, currentKey, currentData, widgetKeys);
     urls.push(currentData.url);
   }
@@ -138,7 +134,7 @@ function _drawBar(i, currentKey, currentData, widgetKeys) {
     show_level: hmUI.show_level.ONLY_NORMAL,
   };
 
-  const { color } = currentData;
+  const color = COLORS[currentData.color];
 
   // Draw BG
   hmUI.createWidget(hmUI.widget.ARC_PROGRESS, {
@@ -153,7 +149,7 @@ function _drawBar(i, currentKey, currentData, widgetKeys) {
   hmUI.createWidget(hmUI.widget.ARC_PROGRESS, {
     ...arcProps,
     color,
-    type: currentData.dataType,
+    type: currentData.progressType ?? currentData.type,
   });
 
   if (currentKey === widgetKeys[i]) return;
@@ -171,11 +167,9 @@ function _drawBar(i, currentKey, currentData, widgetKeys) {
     x: i == 0 ? 96 : 4,
     y: i == 0 ? 102 : 370,
     w: 92,
-    font_array: mkImgArray(`fonts/${currentData.font}`),
+    ...withFont(`sm_${currentData.color}`, currentData),
     align_h: i == 0 ? hmUI.align.RIGHT : hmUI.align.LEFT,
-    type: currentData.dataType,
-    dot_image: currentData.dotImage,
-    unit_en: currentData.unit,
+    type: currentData.type,
     show_level: hmUI.show_level.ONLY_NORMAL,
   });
 }
