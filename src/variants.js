@@ -116,7 +116,7 @@ const EDIT_WIDGETS = {
       unit_tc: "fonts/green/percent.png",
     },
   },
-  steps: {
+  step: {
     value: 2,
     url: "activityAppScreen",
     config: {
@@ -124,7 +124,7 @@ const EDIT_WIDGETS = {
       font_array: mkImgArray("fonts/yellow"),
     },
   },
-  consume: {
+  cal: {
     value: 3,
     url: "activityAppScreen",
     config: {
@@ -132,7 +132,7 @@ const EDIT_WIDGETS = {
       font_array: mkImgArray("fonts/orange"),
     },
   },
-  pai: {
+  pai_weekly: {
     value: 4,
     url: "pai_app_Screen",
     config: {
@@ -140,7 +140,7 @@ const EDIT_WIDGETS = {
       font_array: mkImgArray("fonts/blue"),
     },
   },
-  heartrate: {
+  heart: {
     value: 5,
     url: "heart_app_Screen",
     config: {
@@ -194,7 +194,7 @@ const EDIT_WIDGETS = {
       font_array: FONT_WHITE,
     },
   },
-  sunrise: {
+  sun_rise: {
     value: 11,
     url: "WeatherScreen",
     config: {
@@ -203,7 +203,7 @@ const EDIT_WIDGETS = {
       dot_image: "fonts/white/colon.png",
     },
   },
-  sunset: {
+  sun_set: {
     value: 12,
     url: "WeatherScreen",
     config: {
@@ -284,7 +284,7 @@ const EDIT_WIDGETS = {
       dot_image: "fonts/white/dot.png",
     },
   },
-  alarm: {
+  alarm_clock: {
     value: 18,
     url: "AlarmInfoScreen",
     config: {
