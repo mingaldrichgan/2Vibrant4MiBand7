@@ -31,7 +31,7 @@ function renderDate() {
     month_en_array: fontDate,
     month_sc_array: fontDate,
     month_tc_array: fontDate,
-    month_unit_en: `digital/date/slash.png`,
+    month_unit_en: "digital/date/slash.png",
     month_unit_sc: "digital/date/slash.png",
     month_unit_tc: "digital/date/slash.png",
     month_zero: 0,

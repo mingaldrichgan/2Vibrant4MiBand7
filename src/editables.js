@@ -3,6 +3,14 @@ function renderWidgets() {
   const urls = [];
   const isEdit = hmSetting.getScreenType() == hmSetting.screen_type.SETTINGS;
 
+  const optional_types = [
+    ...Object.entries(EDIT_WIDGETS).map(([key, { type }]) => ({
+      type,
+      preview: `widgets/demo/${key}.png`,
+    })),
+    EDIT_VOID,
+  ];
+
   for (let i = 0; i < 2; i++) {
     const editView = hmUI.createWidget(hmUI.widget.WATCHFACE_EDIT_GROUP, {
       edit_id: 110 + i,
@@ -13,14 +21,8 @@ function renderWidgets() {
       select_image: "edit/center.png",
       un_select_image: "edit/center_w.png",
       default_type: i * 2,
-      optional_types: Object.keys(EDIT_WIDGETS).map((key) => {
-        const data = EDIT_WIDGETS[key];
-        return {
-          type: data.value,
-          preview: `widgets/demo/${key}.png`,
-        };
-      }),
-      count: Object.keys(EDIT_WIDGETS).length,
+      optional_types,
+      count: optional_types.length,
       tips_BG: "",
       tips_x: -1000,
       tips_y: 0,
@@ -30,17 +32,11 @@ function renderWidgets() {
     if (isEdit) continue;
 
     // Fetch current
-    const current = editView.getProperty(hmUI.prop.CURRENT_TYPE);
+    const currentType = editView.getProperty(hmUI.prop.CURRENT_TYPE);
+    const [currentKey, currentData] = Object.entries(EDIT_WIDGETS).find(
+      ([, { type }]) => type === currentType
+    );
 
-    let currentKey = "weather";
-    for (let i in EDIT_WIDGETS) {
-      if (EDIT_WIDGETS[i].value === current) {
-        currentKey = i;
-        break;
-      }
-    }
-
-    const currentData = EDIT_WIDGETS[currentKey];
     _drawWidget(i, currentKey, currentData);
     keys.push(currentKey);
     urls.push(currentData.url);
@@ -72,7 +68,7 @@ function _drawWidget(i, currentKey, currentData) {
     invalid_image: "fonts/white/null.png",
     negative_image: "fonts/white/minus.png",
     show_level: hmUI.show_level.ONLY_NORMAL,
-    ...currentData.config,
+    ...withFont(currentData.color, currentData),
   });
 }
 
@@ -167,9 +163,9 @@ function _drawBar(i, currentKey, currentData, widgetKeys) {
     x: i == 0 ? 96 : 4,
     y: i == 0 ? 102 : 370,
     w: 92,
-    ...withFont(`sm_${currentData.color}`, currentData),
     align_h: i == 0 ? hmUI.align.RIGHT : hmUI.align.LEFT,
     type: currentData.type,
     show_level: hmUI.show_level.ONLY_NORMAL,
+    ...withFont(`sm_${currentData.color}`, currentData),
   });
 }
