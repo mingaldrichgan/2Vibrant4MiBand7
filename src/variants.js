@@ -183,4 +183,4 @@ const EDIT_WIDGETS = withType({
   },
 });
 
-const EDIT_VOID = { type: 99 };
+const EDIT_VOID = { type: 99, preview: "" };
