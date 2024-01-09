@@ -50,6 +50,14 @@ const EDIT_BARS = {
     font: "sm_red",
     color: 0xff0000,
   },
+  humidity: {
+    value: 7,
+    dataType: hmUI.data_type.HUMIDITY,
+    unit: "fonts/sm_cyan/percent.png",
+    url: "WeatherScreen",
+    font: "sm_cyan",
+    color: 0x09d3ff,
+  },
   void: {
     value: 99,
   },
@@ -88,7 +96,7 @@ const EDIT_WIDGETS = {
         unit_tc: "fonts/white/degree.png",
       });
 
-      const weatherTimer = timer.createTimer(
+      timer.createTimer(
         350,
         2300,
         () => {
@@ -166,20 +174,23 @@ const EDIT_WIDGETS = {
       unit_tc: "fonts/red/percent.png",
     },
   },
-  aqi: {
-    value: 8,
-    url: "WeatherScreen",
-    config: {
-      type: hmUI.data_type.AQI,
-      font_array: FONT_WHITE,
-    },
-  },
   humidity: {
-    value: 9,
+    value: 8,
     url: "WeatherScreen",
     config: {
       type: hmUI.data_type.HUMIDITY,
       font_array: mkImgArray("fonts/cyan"),
+      unit_en: "fonts/cyan/percent.png",
+      unit_sc: "fonts/cyan/percent.png",
+      unit_tc: "fonts/cyan/percent.png",
+    },
+  },
+  aqi: {
+    value: 9,
+    url: "WeatherScreen",
+    config: {
+      type: hmUI.data_type.AQI,
+      font_array: FONT_WHITE,
     },
   },
   sunrise: {
