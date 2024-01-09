@@ -100,7 +100,7 @@ const EDIT_WIDGETS = withType({
             prevNight = currentNight;
           }
         },
-        {}
+        {},
       );
     },
   },
@@ -177,7 +177,6 @@ const EDIT_WIDGETS = withType({
     dotOrColon: "colon",
   },
   alarm_clock: {
-    value: 18,
     url: "AlarmInfoScreen",
     color: "white",
     dotOrColon: "colon",

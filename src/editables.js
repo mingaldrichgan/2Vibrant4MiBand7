@@ -12,6 +12,8 @@ function renderWidgets() {
   ];
 
   for (let i = 0; i < 2; i++) {
+    const defaultKey = i === 0 ? "weather_current" : "step";
+
     const editView = hmUI.createWidget(hmUI.widget.WATCHFACE_EDIT_GROUP, {
       edit_id: 110 + i,
       x: 48,
@@ -20,7 +22,7 @@ function renderWidgets() {
       h: 78,
       select_image: "edit/center.png",
       un_select_image: "edit/center_w.png",
-      default_type: i * 2,
+      default_type: EDIT_WIDGETS[defaultKey].type,
       optional_types,
       count: optional_types.length,
       tips_BG: "",
@@ -34,8 +36,8 @@ function renderWidgets() {
     // Fetch current
     const currentType = editView.getProperty(hmUI.prop.CURRENT_TYPE);
     const [currentKey, currentData] = Object.entries(EDIT_WIDGETS).find(
-      ([, { type }]) => type === currentType
-    );
+      ([, { type }]) => type === currentType,
+    ) ?? [defaultKey, EDIT_WIDGETS[defaultKey]];
 
     _drawWidget(i, currentKey, currentData);
     keys.push(currentKey);
@@ -59,6 +61,7 @@ function _drawWidget(i, currentKey, currentData) {
     src: `widgets/icon/${currentKey}.png`,
     show_level: hmUI.show_level.ONLY_NORMAL,
   });
+
   hmUI.createWidget(hmUI.widget.TEXT_IMG, {
     x: 48,
     y: i == 0 ? 84 : 424,
@@ -67,6 +70,7 @@ function _drawWidget(i, currentKey, currentData) {
     align_h: hmUI.align.CENTER_H,
     invalid_image: "fonts/white/null.png",
     negative_image: "fonts/white/minus.png",
+    type: currentData.type,
     show_level: hmUI.show_level.ONLY_NORMAL,
     ...withFont(currentData.color, currentData),
   });
@@ -85,6 +89,8 @@ function renderBars(widgetKeys) {
       EDIT_VOID,
     ];
 
+    const defaultKey = i === 0 ? "battery" : "step";
+
     const editView = hmUI.createWidget(hmUI.widget.WATCHFACE_EDIT_GROUP, {
       edit_id: 101 + i,
       x: 0,
@@ -93,7 +99,7 @@ function renderBars(widgetKeys) {
       h: 136,
       select_image: `edit/${i}a.png`,
       un_select_image: `edit/${i}.png`,
-      default_type: hmUI.data_type[i === 0 ? "BATTERY" : "STEP"],
+      default_type: EDIT_BARS[defaultKey].type,
       optional_types,
       count: optional_types.length,
       tips_BG: "",
@@ -107,8 +113,8 @@ function renderBars(widgetKeys) {
     // Fetch current
     const currentType = editView.getProperty(hmUI.prop.CURRENT_TYPE);
     const [currentKey, currentData] = Object.entries(EDIT_BARS).find(
-      ([, { type }]) => type === currentType
-    );
+      ([, { type }]) => type === currentType,
+    ) ?? [defaultKey, EDIT_BARS[defaultKey]];
 
     _drawBar(i, currentKey, currentData, widgetKeys);
     urls.push(currentData.url);
