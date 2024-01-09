@@ -161,16 +161,6 @@ const EDIT_WIDGETS = withType({
     url: "WeatherScreen",
     color: "white",
   },
-  count_down: {
-    url: "CountdownAppScreen",
-    color: "white",
-    dotOrColon: "colon",
-  },
-  stop_watch: {
-    url: "StopWatchScreen",
-    color: "white",
-    dotOrColon: "colon",
-  },
   sleep: {
     url: "Sleep_HomeScreen",
     color: "white",
@@ -180,6 +170,7 @@ const EDIT_WIDGETS = withType({
     url: "AlarmInfoScreen",
     color: "white",
     dotOrColon: "colon",
+    padding: 1,
   },
 });
 
