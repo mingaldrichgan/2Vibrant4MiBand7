@@ -1,11 +1,10 @@
 function _call(url) {
-  if (typeof url == "function") return url();
-  if (url == "") return;
-
-  hmApp.startApp({
-    url,
-    native: true,
-  });
+  switch (typeof url) {
+    case "function":
+      return url();
+    case "string":
+      return hmApp.startApp({ url, native: true });
+  }
 }
 
 function _changeBrightness(delta) {
@@ -26,13 +25,10 @@ function initTapZones(widgetURLs, barURLs) {
 
   zone.addEventListener(hmUI.event.CLICK_DOWN, () => (mustHandle = true));
   zone.addEventListener(hmUI.event.MOVE, () => (mustHandle = false));
-  zone.addEventListener(hmUI.event.CLICK_UP, (info) => {
+  zone.addEventListener(hmUI.event.CLICK_UP, ({ x, y }) => {
     if (!mustHandle) return;
     mustHandle = false;
 
-    const { x, y } = info;
-
-    // widgets
     if (48 < x && x < 120) {
       if (36 < y && y < 114) {
         return _call(widgetURLs[0]);
@@ -41,14 +37,13 @@ function initTapZones(widgetURLs, barURLs) {
       }
     }
 
+    const isLeft = x < 96;
     if (y < 160) {
-      return _call(barURLs[0]); // top
+      return _call(barURLs[isLeft ? 0 : 1]); // top
     } else if (y > 330) {
-      return _call(barURLs[2]); // bottom
-    } else if (x < 96) {
-      _changeBrightness(-5); // center left
+      return _call(barURLs[isLeft ? 2 : 3]); // bottom
     } else {
-      _changeBrightness(5); // center right
+      _changeBrightness(isLeft ? -5 : 5); // center
     }
   });
 }

@@ -44,11 +44,7 @@ function getTbTimerState() {
 }
 
 function isNight() {
-  const { sunrise, sunset } =
-    weatherSensor.getForecastWeather().tideData.data[0];
+  const { sunrise, sunset } = weatherSensor.getForecastWeather().tideData.data[0];
   const current = timeSensor.hour * 60 + timeSensor.minute;
-  return (
-    current < sunrise.hour * 60 + sunrise.minute ||
-    current > sunset.hour * 60 + sunset.minute
-  );
+  return current < sunrise.hour * 60 + sunrise.minute || current > sunset.hour * 60 + sunset.minute;
 }

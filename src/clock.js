@@ -1,5 +1,5 @@
 function renderClockWidget(isAOD) {
-  const isEdit = hmSetting.getScreenType() == hmSetting.screen_type.SETTINGS;
+  const isEdit = hmSetting.getScreenType() === hmSetting.screen_type.SETTINGS;
 
   const editor = hmUI.createWidget(hmUI.widget.WATCHFACE_EDIT_GROUP, {
     edit_id: 120,

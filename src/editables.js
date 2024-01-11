@@ -1,176 +1,160 @@
 function renderWidgets() {
   const keys = [];
   const urls = [];
-  const isEdit = hmSetting.getScreenType() == hmSetting.screen_type.SETTINGS;
+  const isEdit = hmSetting.getScreenType() === hmSetting.screen_type.SETTINGS;
 
-  const optional_types = [
-    ...Object.entries(EDIT_WIDGETS).map(([key, { type }]) => ({
-      type,
-      preview: `widgets/demo/${key}.png`,
-    })),
-    EDIT_VOID,
-  ];
+  const optional_types = getOptionalTypes(EDIT_WIDGETS, (key) => `widgets/demo/${key}.png`);
 
   for (let i = 0; i < 2; i++) {
-    const defaultKey = i === 0 ? "weather_current" : "step";
-
     const editView = hmUI.createWidget(hmUI.widget.WATCHFACE_EDIT_GROUP, {
       edit_id: 110 + i,
       x: 48,
-      y: i == 0 ? 36 : 376,
+      y: i === 0 ? 36 : 376,
       w: 96,
       h: 78,
       select_image: "edit/center.png",
       un_select_image: "edit/center_w.png",
-      default_type: EDIT_WIDGETS[defaultKey].type,
+      default_type: hmUI.edit_type[i === 0 ? "WEATHER_CURRENT" : "HEART"],
       optional_types,
       count: optional_types.length,
-      tips_BG: "",
-      tips_x: -1000,
-      tips_y: 0,
-      tips_width: 1,
+      tips_BG: "edit/tips.png",
+      tips_x: -21,
+      tips_y: i === 0 ? 80 : -32,
+      tips_width: 138,
     });
 
     if (isEdit) continue;
 
-    // Fetch current
-    const currentType = editView.getProperty(hmUI.prop.CURRENT_TYPE);
-    const [currentKey, currentData] = Object.entries(EDIT_WIDGETS).find(
-      ([, { type }]) => type === currentType,
-    ) ?? [defaultKey, EDIT_WIDGETS[defaultKey]];
-
+    const [currentKey, currentData] = getCurrent(editView, EDIT_WIDGETS);
     _drawWidget(i, currentKey, currentData);
     keys.push(currentKey);
-    urls.push(currentData.url);
+    urls.push(currentData?.url);
   }
 
   return [keys, urls];
 }
 
 function _drawWidget(i, currentKey, currentData) {
-  if (i == 99) return;
-  if (currentData.render) {
-    currentData.render(i == 0 ? 36 : 376);
-    return;
-  }
+  if (!currentData) return;
+  if (currentData.render) return currentData.render(i === 0 ? 36 : 376);
 
   // Icon
   hmUI.createWidget(hmUI.widget.IMG, {
     x: 74,
-    y: i == 0 ? 36 : 376,
+    y: i === 0 ? 36 : 376,
     src: `widgets/icon/${currentKey}.png`,
     show_level: hmUI.show_level.ONLY_NORMAL,
   });
 
   hmUI.createWidget(hmUI.widget.TEXT_IMG, {
     x: 48,
-    y: i == 0 ? 84 : 424,
+    y: i === 0 ? 84 : 424,
     w: 96,
     h: 30,
     align_h: hmUI.align.CENTER_H,
     invalid_image: "fonts/white/null.png",
     negative_image: "fonts/white/minus.png",
-    type: currentData.type,
+    type: hmUI.data_type[currentKey.toUpperCase()],
     show_level: hmUI.show_level.ONLY_NORMAL,
     ...withFont(currentData.color, currentData),
   });
 }
 
 function renderBars(widgetKeys) {
+  const keys = [];
   const urls = [];
-  const isEdit = hmSetting.getScreenType() == hmSetting.screen_type.SETTINGS;
+  const isEdit = hmSetting.getScreenType() === hmSetting.screen_type.SETTINGS;
 
-  for (let i = 0; i < 2; i++) {
-    const optional_types = [
-      ...Object.entries(EDIT_BARS).map(([key, { type }]) => ({
-        type,
-        preview: `bars/demo/${i}/${key}.png`,
-      })),
-      EDIT_VOID,
-    ];
-
-    const defaultKey = i === 0 ? "battery" : "step";
+  for (let i = 0; i < 4; i++) {
+    const optional_types = getOptionalTypes(EDIT_BARS, (key) => `bars/demo/${i}/${key}.png`);
 
     const editView = hmUI.createWidget(hmUI.widget.WATCHFACE_EDIT_GROUP, {
       edit_id: 101 + i,
-      x: 0,
-      y: i == 0 ? 4 : 352,
-      w: 192,
+      x: i % 2 === 0 ? 0 : 96,
+      y: i < 2 ? 0 : 354,
+      w: 96,
       h: 136,
       select_image: `edit/${i}a.png`,
       un_select_image: `edit/${i}.png`,
-      default_type: EDIT_BARS[defaultKey].type,
+      default_type: hmUI.edit_type[["STEP", "CAL", "BATTERY", "BATTERY"][i]],
       optional_types,
       count: optional_types.length,
-      tips_BG: "",
-      tips_x: -1000,
-      tips_y: 0,
-      tips_width: 1,
+      tips_BG: "edit/tips.png",
+      tips_x: i % 2 === 0 ? 27 : -69,
+      tips_y: i < 2 ? 116 : -10,
+      tips_width: 138,
     });
 
     if (isEdit) continue;
 
-    // Fetch current
-    const currentType = editView.getProperty(hmUI.prop.CURRENT_TYPE);
-    const [currentKey, currentData] = Object.entries(EDIT_BARS).find(
-      ([, { type }]) => type === currentType,
-    ) ?? [defaultKey, EDIT_BARS[defaultKey]];
+    const [currentKey, currentData] = getCurrent(editView, EDIT_BARS);
+    keys.push(currentKey);
+    urls.push(currentData?.url);
+  }
 
-    _drawBar(i, currentKey, currentData, widgetKeys);
-    urls.push(currentData.url);
+  if (!isEdit) {
+    for (let w = 0; w < 2; w++) {
+      // 0: top, 1: bottom
+      const i = w * 2; // left
+      const j = i + 1; // right
+      const isMerged = keys[i] === keys[j];
+      _drawBar(isMerged ? w : i, isMerged, keys[i], EDIT_BARS[keys[i]], widgetKeys[w]);
+      if (!isMerged) {
+        _drawBar(j, false, keys[j], EDIT_BARS[keys[j]], widgetKeys[w]);
+      }
+    }
   }
 
   return urls;
 }
 
-function _drawBar(i, currentKey, currentData, widgetKeys) {
-  if (i == 99) return;
+function _drawBar(i, isMerged, currentKey, currentData, adjacentWidgetKey) {
+  if (!currentData) return;
 
   const arcProps = {
     center_x: 96,
-    center_y: i == 0 ? 100 : 392,
+    center_y: (isMerged ? [96, 394] : [96, 96, 394, 394])[i],
     radius: 82,
-    start_angle: i == 0 ? -90 : 90,
-    end_angle: i == 0 ? 90 : 270,
+    start_angle: (isMerged ? [-90, 90] : [-90, 90, -90, 90])[i],
+    end_angle: (isMerged ? [90, 270] : [-12, 12, -168, 168])[i],
     line_width: 20,
     show_level: hmUI.show_level.ONLY_NORMAL,
   };
 
-  const color = COLORS[currentData.color];
+  const [fgColor, bgColor] = COLORS[currentData.color];
 
   // Draw BG
   hmUI.createWidget(hmUI.widget.ARC_PROGRESS, {
     ...arcProps,
-    color: [color % 256, (color >> 8) % 256, color >> 16] // [B, G, R]
-      .map((value) => Math.round(value * 0.3)) // lower opacity
-      .reduce((sum, value, index) => sum + (value << (8 * index))),
+    color: bgColor,
     level: 100,
   });
 
   // Draw FG
   hmUI.createWidget(hmUI.widget.ARC_PROGRESS, {
     ...arcProps,
-    color,
-    type: currentData.progressType ?? currentData.type,
+    color: fgColor,
+    type: currentData.progressType ?? hmUI.data_type[currentKey.toUpperCase()],
   });
 
-  if (currentKey === widgetKeys[i]) return;
+  if (currentKey === adjacentWidgetKey) return;
 
   // Draw ICON
   hmUI.createWidget(hmUI.widget.IMG, {
-    x: i == 0 ? 3 : 167,
-    y: i == 0 ? 104 : 368,
+    x: (isMerged ? [3, 167] : [27, 143, 27, 143])[i],
+    y: (isMerged ? [99, 369] : [74, 74, 394, 394])[i],
     src: `bars/icon/${currentKey}.png`,
     show_level: hmUI.show_level.ONLY_NORMAL,
   });
 
   // Draw TEXT
+  const x = (isMerged ? [96, 4] : [4, 96, 4, 96])[i];
   hmUI.createWidget(hmUI.widget.TEXT_IMG, {
-    x: i == 0 ? 96 : 4,
-    y: i == 0 ? 102 : 370,
+    x,
+    y: (isMerged ? [100, 372] : [100, 100, 372, 372])[i],
     w: 92,
-    align_h: i == 0 ? hmUI.align.RIGHT : hmUI.align.LEFT,
-    type: currentData.type,
+    align_h: x < 96 ? hmUI.align.LEFT : hmUI.align.RIGHT,
+    type: hmUI.data_type[currentKey.toUpperCase()],
     show_level: hmUI.show_level.ONLY_NORMAL,
     ...withFont(`sm_${currentData.color}`, currentData),
   });

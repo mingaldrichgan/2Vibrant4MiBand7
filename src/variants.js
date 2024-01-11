@@ -1,14 +1,14 @@
 const COLORS = {
-  blue: 0x5f64fa,
-  cyan: 0x09d3ff,
-  green: 0x02fa7a,
-  orange: 0xff8a00,
-  red: 0xff0038,
-  teal: 0x00bd9d,
-  yellow: 0xffe30b,
+  blue: [0x5252ff, 0x19194c],
+  cyan: [0x0dd3ff, 0x043f4c],
+  green: [0x02fa7a, 0x014b25],
+  orange: [0xff8a01, 0x4c2900],
+  red: [0xff0038, 0x4c0011],
+  teal: [0x00bd9d, 0x00382f],
+  yellow: [0xffd801, 0x4c4100],
 };
 
-const EDIT_BARS = withType({
+const EDIT_BARS = {
   battery: {
     url: "Settings_batteryManagerScreen",
     color: "green",
@@ -47,21 +47,19 @@ const EDIT_BARS = withType({
   spo2: {
     url: "spo_HomeScreen",
     color: "red",
-    unit: "percent",
   },
   humidity: {
     url: "WeatherScreen",
     color: "cyan",
-    unit: "percent",
   },
-});
+};
 
-const FONT_WHITE = mkImgArray("fonts/white");
-const FONT_RED = mkImgArray("fonts/red");
-const FONT_GREEN = mkImgArray("fonts/green");
-const EDIT_WIDGETS = withType({
+const EDIT_WIDGETS = {
   weather_current: {
     url: "WeatherScreen",
+    title_en: "Weather",
+    title_sc: "天气",
+    title_tc: "天氣",
     render: (y) => {
       const weatherImage = hmUI.createWidget(hmUI.widget.IMG_LEVEL, {
         x: 74,
@@ -73,19 +71,16 @@ const EDIT_WIDGETS = withType({
       });
 
       hmUI.createWidget(hmUI.widget.TEXT_IMG, {
-        x: 53,
+        x: 30,
         y: y + 48,
         w: 96,
         h: 30,
-        align_h: hmUI.align.CENTER_H,
+        align_h: hmUI.align.RIGHT,
         invalid_image: "fonts/white/null.png",
         negative_image: "fonts/white/minus.png",
         show_level: hmUI.show_level.ONLY_NORMAL,
         type: hmUI.data_type.WEATHER_CURRENT,
-        font_array: FONT_WHITE,
-        unit_en: "fonts/white/degree.png",
-        unit_sc: "fonts/white/degree.png",
-        unit_tc: "fonts/white/degree.png",
+        ...withFont("white", { unit: "degree" }),
       });
 
       timer.createTimer(
@@ -113,6 +108,11 @@ const EDIT_WIDGETS = withType({
     url: "activityAppScreen",
     color: "yellow",
   },
+  distance: {
+    url: "activityAppScreen",
+    color: "yellow",
+    dotOrColon: "dot",
+  },
   cal: {
     url: "activityAppScreen",
     color: "orange",
@@ -136,12 +136,10 @@ const EDIT_WIDGETS = withType({
   spo2: {
     url: "spo_HomeScreen",
     color: "red",
-    unit: "percent",
   },
   humidity: {
     url: "WeatherScreen",
     color: "cyan",
-    unit: "percent",
   },
   aqi: {
     url: "WeatherScreen",
@@ -151,11 +149,17 @@ const EDIT_WIDGETS = withType({
     url: "WeatherScreen",
     color: "white",
     dotOrColon: "colon",
+    title_en: "Sunrise",
+    title_sc: "日出",
+    title_tc: "日出",
   },
   sun_set: {
     url: "WeatherScreen",
     color: "white",
     dotOrColon: "colon",
+    title_en: "Sunset",
+    title_sc: "日落",
+    title_tc: "日落",
   },
   uvi: {
     url: "WeatherScreen",
@@ -164,7 +168,7 @@ const EDIT_WIDGETS = withType({
   sleep: {
     url: "Sleep_HomeScreen",
     color: "white",
-    dotOrColon: "colon",
+    dotOrColon: "dot",
   },
   alarm_clock: {
     url: "AlarmInfoScreen",
@@ -172,6 +176,4 @@ const EDIT_WIDGETS = withType({
     dotOrColon: "colon",
     padding: 1,
   },
-});
-
-const EDIT_VOID = { type: 99, preview: "" };
+};
