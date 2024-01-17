@@ -71,11 +71,11 @@ const EDIT_WIDGETS = {
       });
 
       hmUI.createWidget(hmUI.widget.TEXT_IMG, {
-        x: 30,
+        x: 54,
         y: y + 48,
         w: 96,
         h: 30,
-        align_h: hmUI.align.RIGHT,
+        align_h: hmUI.align.CENTER_H,
         invalid_image: "fonts/white/null.png",
         negative_image: "fonts/white/minus.png",
         show_level: hmUI.show_level.ONLY_NORMAL,
