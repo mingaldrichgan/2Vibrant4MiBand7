@@ -71,7 +71,7 @@ const EDIT_WIDGETS = {
       });
 
       hmUI.createWidget(hmUI.widget.TEXT_IMG, {
-        x: 54,
+        x: 53,
         y: y + 48,
         w: 96,
         h: 30,
