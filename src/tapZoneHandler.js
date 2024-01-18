@@ -43,7 +43,7 @@ function initTapZones(widgetURLs, barURLs) {
     } else if (y > 330) {
       return _call(barURLs[isLeft ? 2 : 3]); // bottom
     } else {
-      _changeBrightness(isLeft ? -5 : 5); // center
+      _changeBrightness(isLeft ? -10 : 10); // center
     }
   });
 }

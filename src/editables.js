@@ -36,26 +36,25 @@ function renderWidgets() {
 
 function _drawWidget(i, currentKey, currentData) {
   if (!currentData) return;
-  if (currentData.render) return currentData.render(i === 0 ? 36 : 376);
 
-  // Icon
-  hmUI.createWidget(hmUI.widget.IMG, {
-    x: 74,
-    y: i === 0 ? 36 : 376,
-    src: `widgets/icon/${currentKey}.png`,
-    show_level: hmUI.show_level.ONLY_NORMAL,
-  });
+  (
+    currentData.renderIcon ??
+    ((props) => hmUI.createWidget(hmUI.widget.IMG, { ...props, src: `widgets/icon/${currentKey}.png` }))
+  )({ x: 74, y: i === 0 ? 36 : 376 });
 
-  hmUI.createWidget(hmUI.widget.TEXT_IMG, {
+  (
+    currentData.renderText ??
+    ((props) =>
+      hmUI.createWidget(hmUI.widget.TEXT_IMG, {
+        ...props,
+        type: hmUI.data_type[currentKey.toUpperCase()],
+      }))
+  )({
     x: 48,
     y: i === 0 ? 84 : 424,
     w: 96,
     h: 30,
     align_h: hmUI.align.CENTER_H,
-    invalid_image: "fonts/white/null.png",
-    negative_image: "fonts/white/minus.png",
-    type: hmUI.data_type[currentKey.toUpperCase()],
-    show_level: hmUI.show_level.ONLY_NORMAL,
     ...withFont(currentData.color, currentData),
   });
 }
@@ -118,24 +117,19 @@ function _drawBar(i, isMerged, currentKey, currentData, adjacentWidgetKey) {
     start_angle: (isMerged ? [-90, 90] : [-90, 90, -90, 90])[i],
     end_angle: (isMerged ? [90, 270] : [-12, 12, -168, 168])[i],
     line_width: 20,
-    show_level: hmUI.show_level.ONLY_NORMAL,
   };
 
   const [fgColor, bgColor] = COLORS[currentData.color];
 
   // Draw BG
-  hmUI.createWidget(hmUI.widget.ARC_PROGRESS, {
-    ...arcProps,
-    color: bgColor,
-    level: 100,
-  });
+  hmUI.createWidget(hmUI.widget.ARC_PROGRESS, { ...arcProps, color: bgColor, level: 100 });
 
   // Draw FG
-  hmUI.createWidget(hmUI.widget.ARC_PROGRESS, {
-    ...arcProps,
-    color: fgColor,
-    type: currentData.progressType ?? hmUI.data_type[currentKey.toUpperCase()],
-  });
+  (
+    currentData.renderArc ??
+    ((props) =>
+      hmUI.createWidget(hmUI.widget.ARC_PROGRESS, { ...props, type: hmUI.data_type[currentKey.toUpperCase()] }))
+  )({ ...arcProps, color: fgColor });
 
   if (currentKey === adjacentWidgetKey) return;
 
@@ -144,18 +138,18 @@ function _drawBar(i, isMerged, currentKey, currentData, adjacentWidgetKey) {
     x: (isMerged ? [3, 167] : [27, 143, 27, 143])[i],
     y: (isMerged ? [99, 369] : [74, 74, 394, 394])[i],
     src: `bars/icon/${currentKey}.png`,
-    show_level: hmUI.show_level.ONLY_NORMAL,
   });
 
   // Draw TEXT
   const x = (isMerged ? [96, 4] : [4, 96, 4, 96])[i];
-  hmUI.createWidget(hmUI.widget.TEXT_IMG, {
+  (
+    currentData.renderText ??
+    ((props) => hmUI.createWidget(hmUI.widget.TEXT_IMG, { ...props, type: hmUI.data_type[currentKey.toUpperCase()] }))
+  )({
     x,
     y: (isMerged ? [100, 372] : [100, 100, 372, 372])[i],
     w: 92,
     align_h: x < 96 ? hmUI.align.LEFT : hmUI.align.RIGHT,
-    type: hmUI.data_type[currentKey.toUpperCase()],
-    show_level: hmUI.show_level.ONLY_NORMAL,
     ...withFont(`sm_${currentData.color}`, currentData),
   });
 }

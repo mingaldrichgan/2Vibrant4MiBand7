@@ -5,8 +5,11 @@ const COLORS = {
   orange: [0xff8a01, 0x4c2900],
   red: [0xff0038, 0x4c0011],
   teal: [0x00bd9d, 0x00382f],
+  white: [0xffffff, 0x4c4c4c],
   yellow: [0xffd801, 0x4c4100],
 };
+
+const EDIT_NULL = { type: 100_000, preview: "", title_en: "––", title_sc: "––", title_tc: "––" };
 
 const EDIT_BARS = {
   battery: {
@@ -19,10 +22,10 @@ const EDIT_BARS = {
     color: "yellow",
   },
   distance: {
-    progressType: hmUI.data_type.STEP,
     url: "activityAppScreen",
     color: "yellow",
     dotOrColon: "dot",
+    renderArc: (props) => hmUI.createWidget(hmUI.widget.ARC_PROGRESS, { ...props, type: hmUI.data_type.STEP }),
   },
   cal: {
     url: "activityAppScreen",
@@ -47,10 +50,28 @@ const EDIT_BARS = {
   spo2: {
     url: "spo_HomeScreen",
     color: "red",
+    unit: "percent",
   },
   humidity: {
     url: "WeatherScreen",
     color: "cyan",
+  },
+  brightness: {
+    editType: EDIT_NULL.type + 1,
+    url: "Settings_lightAdjustScreen",
+    title_en: "Brightness",
+    title_sc: "亮度",
+    title_tc: "亮度",
+    color: "white",
+    unit: "percent",
+    renderArc: (props) => {
+      const brightnessArc = hmUI.createWidget(hmUI.widget.ARC_PROGRESS, props);
+      timer.createTimer(0, 100, () => brightnessArc.setProperty(hmUI.prop.LEVEL, hmSetting.getBrightness()));
+    },
+    renderText: (props) => {
+      const brightnessText = hmUI.createWidget(hmUI.widget.TEXT_IMG, props);
+      timer.createTimer(0, 100, () => brightnessText.setProperty(hmUI.prop.TEXT, String(hmSetting.getBrightness())));
+    },
   },
 };
 
@@ -60,87 +81,36 @@ const EDIT_WIDGETS = {
     title_en: "Weather",
     title_sc: "天气",
     title_tc: "天氣",
-    render: (y) => {
+    color: "white",
+    unit: "degree",
+    renderIcon: (props) => {
+      var wasNight = isNight(); // global
+
       const weatherImage = hmUI.createWidget(hmUI.widget.IMG_LEVEL, {
-        x: 74,
-        y,
-        image_array: mkImgArray("widgets/weather", 29, isNight()),
+        ...props,
+        image_array: mkImgArray("widgets/weather", 29, wasNight),
         image_length: 29,
         type: hmUI.data_type.WEATHER_CURRENT,
-        show_level: hmUI.show_level.ONLY_NORMAL,
       });
 
+      timer.createTimer(1000, 1000, () => {
+        const isNight = isNight();
+        if (isNight !== wasNight) {
+          weatherImage.setProperty(hmUI.prop.MORE, { image_array: mkImgArray("widgets/weather", 29, isNight) });
+          wasNight = isNight;
+        }
+      });
+    },
+    renderText: (props) => {
       hmUI.createWidget(hmUI.widget.TEXT_IMG, {
+        ...props,
         x: 53,
-        y: y + 48,
-        w: 96,
-        h: 30,
-        align_h: hmUI.align.CENTER_H,
-        invalid_image: "fonts/white/null.png",
         negative_image: "fonts/white/minus.png",
-        show_level: hmUI.show_level.ONLY_NORMAL,
         type: hmUI.data_type.WEATHER_CURRENT,
-        ...withFont("white", { unit: "degree" }),
       });
-
-      timer.createTimer(
-        350,
-        2300,
-        () => {
-          var currentNight = isNight();
-          if (currentNight != prevNight) {
-            weatherImage.setProperty(hmUI.prop.MORE, {
-              image_array: mkImgArray("widgets/weather", 29, currentNight),
-            });
-            prevNight = currentNight;
-          }
-        },
-        {},
-      );
     },
   },
-  battery: {
-    url: "Settings_batteryManagerScreen",
-    color: "green",
-    unit: "percent",
-  },
-  step: {
-    url: "activityAppScreen",
-    color: "yellow",
-  },
-  distance: {
-    url: "activityAppScreen",
-    color: "yellow",
-    dotOrColon: "dot",
-  },
-  cal: {
-    url: "activityAppScreen",
-    color: "orange",
-  },
-  pai_weekly: {
-    url: "pai_app_Screen",
-    color: "blue",
-  },
-  heart: {
-    url: "heart_app_Screen",
-    color: "red",
-  },
-  stress: {
-    url: "StressHomeScreen",
-    color: "teal",
-  },
-  stand: {
-    url: "activityAppScreen",
-    color: "green",
-  },
-  spo2: {
-    url: "spo_HomeScreen",
-    color: "red",
-  },
-  humidity: {
-    url: "WeatherScreen",
-    color: "cyan",
-  },
+  ...EDIT_BARS,
   aqi: {
     url: "WeatherScreen",
     color: "white",
