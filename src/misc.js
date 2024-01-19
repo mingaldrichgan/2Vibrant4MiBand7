@@ -1,6 +1,3 @@
-const timeSensor = hmSensor.createSensor(hmSensor.id.TIME);
-const weatherSensor = hmSensor.createSensor(hmSensor.id.WEATHER);
-
 function renderStatus() {
   hmUI.createWidget(hmUI.widget.IMG, {
     x: 0,
@@ -40,10 +37,4 @@ function getTbTimerState() {
     second = (delay % 60).toString().padStart(2, "0");
 
   return `${minute}.${second}`;
-}
-
-function isNight() {
-  const { sunrise, sunset } = weatherSensor.getForecastWeather().tideData.data[0];
-  const current = timeSensor.hour * 60 + timeSensor.minute;
-  return current < sunrise.hour * 60 + sunrise.minute || current > sunset.hour * 60 + sunset.minute;
 }
