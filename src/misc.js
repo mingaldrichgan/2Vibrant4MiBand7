@@ -1,24 +1,32 @@
-function renderStatus() {
+function renderStatus(hasSpaceOnRightSide) {
+  let x = 3;
+  let y = hasSpaceOnRightSide ? 232 : 216;
   hmUI.createWidget(hmUI.widget.IMG, {
-    x: 0,
-    y: 334,
-    src: "status/bg1.png",
-  });
-  hmUI.createWidget(hmUI.widget.IMG, {
-    x: 166,
-    y: 334,
-    src: "status/bg2.png",
+    x,
+    y,
+    src: "status/bluetooth_on.png",
   });
   hmUI.createWidget(hmUI.widget.IMG_STATUS, {
-    x: 0,
-    y: 334,
-    src: "status/disconnect.png",
+    x,
+    y,
+    src: "status/bluetooth_off.png",
     type: hmUI.system_status.DISCONNECT,
   });
+
+  if (hasSpaceOnRightSide) {
+    x = 163;
+  } else {
+    y = 248;
+  }
+  hmUI.createWidget(hmUI.widget.IMG, {
+    x,
+    y,
+    src: "status/dnd_off.png",
+  });
   hmUI.createWidget(hmUI.widget.IMG_STATUS, {
-    x: 166,
-    y: 334,
-    src: "status/dnd.png",
+    x,
+    y,
+    src: "status/dnd_on.png",
     type: hmUI.system_status.DISTURB,
   });
 }

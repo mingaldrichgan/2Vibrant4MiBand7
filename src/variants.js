@@ -31,12 +31,12 @@ const EDIT_BARS = {
     color: "white",
     unit: "percent",
     renderArc: (props) => {
-      const arc = hmUI.createWidget(hmUI.widget.ARC_PROGRESS, props);
-      timer.createTimer(0, 100, () => arc.setProperty(hmUI.prop.LEVEL, hmSetting.getBrightness()));
+      const arc = hmUI.createWidget(hmUI.widget.ARC_PROGRESS, { ...props, level: hmSetting.getBrightness() });
+      timer.createTimer(100, 100, () => arc.setProperty(hmUI.prop.LEVEL, hmSetting.getBrightness()));
     },
     renderText: (props) => {
-      const text = hmUI.createWidget(hmUI.widget.TEXT_IMG, props);
-      timer.createTimer(0, 100, () => text.setProperty(hmUI.prop.TEXT, String(hmSetting.getBrightness())));
+      const text = hmUI.createWidget(hmUI.widget.TEXT_IMG, { ...props, text: hmSetting.getBrightness() });
+      timer.createTimer(100, 100, () => text.setProperty(hmUI.prop.TEXT, String(hmSetting.getBrightness())));
     },
   },
   step: {
@@ -82,12 +82,12 @@ const EDIT_BARS = {
     title_sc: "睡眠得分",
     title_tc: "睡眠評分",
     renderArc: (props) => {
-      const arc = hmUI.createWidget(hmUI.widget.ARC_PROGRESS, { ...props, level: sleepSensor.getBasicInfo().score });
-      timer.createTimer(1000, 1000, () => arc.setProperty(hmUI.prop.LEVEL, sleepSensor.getBasicInfo().score));
+      const arc = hmUI.createWidget(hmUI.widget.ARC_PROGRESS, { ...props, level: SLEEP.getBasicInfo().score });
+      timer.createTimer(1000, 1000, () => arc.setProperty(hmUI.prop.LEVEL, SLEEP.getBasicInfo().score));
     },
     renderText: (props) => {
-      const text = hmUI.createWidget(hmUI.widget.TEXT_IMG, { ...props, text: sleepSensor.getBasicInfo().score });
-      timer.createTimer(1000, 1000, () => text.setProperty(hmUI.prop.TEXT, String(sleepSensor.getBasicInfo().score)));
+      const text = hmUI.createWidget(hmUI.widget.TEXT_IMG, { ...props, text: SLEEP.getBasicInfo().score });
+      timer.createTimer(1000, 1000, () => text.setProperty(hmUI.prop.TEXT, String(SLEEP.getBasicInfo().score)));
     },
   },
 };
@@ -101,20 +101,28 @@ const EDIT_WIDGETS = {
     color: "white",
     unit: "degree",
     renderIcon: (props) => {
-      var wasNight = isNight(); // global
+      const dayIcons = getImageArray("widgets/weather", 29);
+      const nightIcons = [dayIcons[26], dayIcons[27], dayIcons[2], dayIcons[28], dayIcons.slice(4)];
 
+      const getIcons = () => {
+        const { sunrise, sunset } = WEATHER.getForecastWeather().tideData.data[0];
+        const now = TIME.hour * 60 + TIME.minute;
+        return sunrise.hour * 60 + sunrise.minute <= now && now < sunset.hour * 60 + sunset.minute
+          ? dayIcons
+          : nightIcons;
+      };
+
+      let image_array = getIcons();
       const weatherImage = hmUI.createWidget(hmUI.widget.IMG_LEVEL, {
         ...props,
-        image_array: mkImgArray("widgets/weather", 29, wasNight),
+        image_array,
         image_length: 29,
         type: hmUI.data_type.WEATHER_CURRENT,
       });
 
-      timer.createTimer(1000, 1000, () => {
-        const isNight = isNight();
-        if (isNight !== wasNight) {
-          weatherImage.setProperty(hmUI.prop.MORE, { image_array: mkImgArray("widgets/weather", 29, isNight) });
-          wasNight = isNight;
+      TIME.addEventListener(TIME.event.MINUTEEND, () => {
+        if (image_array !== (image_array = getIcons())) {
+          weatherImage.setProperty(hmUI.prop.MORE, { image_array });
         }
       });
     },
@@ -122,7 +130,7 @@ const EDIT_WIDGETS = {
       hmUI.createWidget(hmUI.widget.TEXT_IMG, {
         ...props,
         x: 53,
-        negative_image: "fonts/white/minus.png",
+        negative_image: "fonts/widgets/white/minus.png",
         type: hmUI.data_type.WEATHER_CURRENT,
       });
     },

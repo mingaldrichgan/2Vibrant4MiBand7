@@ -5,21 +5,19 @@ __$$module$$__.module = DeviceRuntimeCore.WatchFace({
     const currentScreen = hmSetting.getScreenType();
     switch (currentScreen) {
       case hmSetting.screen_type.AOD:
-        renderClockWidget(true);
-        return;
+        return renderClock({ isAOD: true });
 
-      case hmSetting.screen_type.SETTINGS:
-        renderWidgets();
+      case hmSetting.screen_type.SETTINGS: {
+        const isEdit = true;
+        renderWidgets({ isEdit });
         renderBars();
-        renderClockWidget(false);
-        return;
+        return renderClock({ isEdit });
+      }
 
       default:
         const [widgetKeys, widgetUrls] = renderWidgets();
         const barUrls = renderBars(widgetKeys);
-        renderStatus();
-        renderClockWidget(false);
-
+        renderStatus(renderClock());
         initTapZones(widgetUrls, barUrls);
     }
   },

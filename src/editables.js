@@ -1,26 +1,27 @@
-function renderWidgets() {
+function renderWidgets({ isEdit } = {}) {
   const keys = [];
   const urls = [];
-  const isEdit = hmSetting.getScreenType() === hmSetting.screen_type.SETTINGS;
 
   const optional_types = getOptionalTypes(EDIT_WIDGETS, (key) => `widgets/demo/${key}.png`);
 
   for (let i = 0; i < 2; i++) {
+    const defaultKey = i === 0 ? "weather_current" : "heart";
+
     const editView = hmUI.createWidget(hmUI.widget.WATCHFACE_EDIT_GROUP, {
       edit_id: 110 + i,
       x: 48,
       y: i === 0 ? 36 : 376,
       w: 96,
       h: 78,
-      select_image: "edit/center.png",
-      un_select_image: "edit/center_w.png",
-      default_type: hmUI.edit_type[i === 0 ? "WEATHER_CURRENT" : "HEART"],
+      select_image: "edit/widgets/select.png",
+      un_select_image: "edit/widgets/unselect.png",
+      default_type: getEditType(defaultKey, EDIT_WIDGETS[defaultKey]),
       optional_types,
       count: optional_types.length,
       tips_BG: "edit/tips.png",
       tips_x: -21,
       tips_y: i === 0 ? 80 : -32,
-      tips_width: 138,
+      tips_width: 102,
     });
 
     if (isEdit) continue;
@@ -55,17 +56,17 @@ function _drawWidget(i, currentKey, currentData) {
     w: 96,
     h: 30,
     align_h: hmUI.align.CENTER_H,
-    ...withFont(currentData.color, currentData),
+    ...withFont(`widgets/${currentData.color}`, currentData),
   });
 }
 
 function renderBars(widgetKeys) {
   const keys = [];
   const urls = [];
-  const isEdit = hmSetting.getScreenType() === hmSetting.screen_type.SETTINGS;
 
   for (let i = 0; i < 4; i++) {
     const optional_types = getOptionalTypes(EDIT_BARS, (key) => `bars/demo/${i}/${key}.png`);
+    const defaultKey = ["step", "cal", "battery", "battery"][i];
 
     const editView = hmUI.createWidget(hmUI.widget.WATCHFACE_EDIT_GROUP, {
       edit_id: 101 + i,
@@ -75,23 +76,23 @@ function renderBars(widgetKeys) {
       h: 136,
       select_image: `edit/${i}a.png`,
       un_select_image: `edit/${i}.png`,
-      default_type: hmUI.edit_type[["STEP", "CAL", "BATTERY", "BATTERY"][i]],
+      default_type: getEditType(defaultKey, EDIT_BARS[defaultKey]),
       optional_types,
       count: optional_types.length,
       tips_BG: "edit/tips.png",
       tips_x: i % 2 === 0 ? 27 : -69,
       tips_y: i < 2 ? 116 : -10,
-      tips_width: 138,
+      tips_width: 102,
     });
 
-    if (isEdit) continue;
+    if (!widgetKeys) continue; // No widgetKeys in edit mode.
 
     const [currentKey, currentData] = getCurrent(editView, EDIT_BARS);
     keys.push(currentKey);
     urls.push(currentData?.url);
   }
 
-  if (!isEdit) {
+  if (widgetKeys) {
     for (let w = 0; w < 2; w++) {
       // 0: top, 1: bottom
       const i = w * 2; // left
@@ -150,6 +151,6 @@ function _drawBar(i, isMerged, currentKey, currentData, adjacentWidgetKey) {
     y: (isMerged ? [100, 372] : [100, 100, 372, 372])[i],
     w: 92,
     align_h: x < 96 ? hmUI.align.LEFT : hmUI.align.RIGHT,
-    ...withFont(`sm_${currentData.color}`, currentData),
+    ...withFont(`bars/${currentData.color}`, currentData),
   });
 }
