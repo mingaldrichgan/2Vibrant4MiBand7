@@ -22,13 +22,13 @@ function renderClock({ isAOD, isEdit } = {}) {
 
   const currentType = editor.getProperty(hmUI.prop.CURRENT_TYPE);
   const hasPointer = currentType === CLOCK_TYPES.analog_aod || (currentType === CLOCK_TYPES.digital_aod && !isAOD);
-  const dateWidth = _renderTimeDigital({ hasPointer, isAOD });
+  const hasSpaceOnRightSide =
+    (currentType === CLOCK_TYPES.analog_aod && isAOD) || _renderTimeDigital({ hasPointer, isAOD });
   if (hasPointer) _renderTimeAnalog(isAOD);
-  return dateWidth;
+  return hasSpaceOnRightSide;
 }
 
 function _renderTimeAnalog(isAOD) {
-  // Time pointer
   hmUI.createWidget(hmUI.widget.TIME_POINTER, {
     hour_centerX: 96,
     hour_centerY: 245,
