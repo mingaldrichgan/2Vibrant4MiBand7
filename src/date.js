@@ -1,19 +1,40 @@
 const osLang = DeviceRuntimeCore.HmUtils.getLanguage();
 const hasWeekday = osLang.startsWith("en") || osLang.startsWith("zh");
 
-function renderDate(hasPointer) {
-  const font = getImageArray("fonts/date");
+function renderDate(hasDigits, hasPointer) {
+  function getDatePosition() {
+    if (hasDigits && hasPointer) return { x: 32, y: 230, month_startX: 114, month_startY: 230 };
 
-  function getCenterX() {
     const weekdayWidth = hasWeekday ? 52 : 0;
+    if (hasPointer) {
+      return {
+        x: Math.round((192 - weekdayWidth) / 2),
+        y: 145,
+        month_startX: Math.round((192 - getDateWidth()) / 2),
+        month_startY: 315,
+      };
+    }
+
     const x = Math.round((192 - getDateWidth() - weekdayWidth) / 2);
-    return { x, month_startX: x + weekdayWidth };
+    return { x, y: 230, month_startX: x + weekdayWidth, month_startY: 230 };
   }
 
-  let { x, month_startX } = hasPointer ? { x: 32, month_startX: 114 } : getCenterX();
+  let { x, y, month_startX, month_startY } = getDatePosition();
+  const font = getImageArray("fonts/date");
+
+  const weekday =
+    hasWeekday &&
+    hmUI.createWidget(hmUI.widget.IMG_WEEK, {
+      x,
+      y,
+      week_en: getImageArray("weekday/en", 7),
+      week_sc: getImageArray("weekday/sc", 7),
+      week_tc: getImageArray("weekday/tc", 7),
+    });
+
   const date = hmUI.createWidget(hmUI.widget.IMG_DATE, {
     month_startX,
-    month_startY: 230,
+    month_startY,
     month_en_array: font,
     month_sc_array: font,
     month_tc_array: font,
@@ -28,25 +49,11 @@ function renderDate(hasPointer) {
     day_zero: 0,
   });
 
-  const weekday =
-    hasWeekday &&
-    hmUI.createWidget(hmUI.widget.IMG_WEEK, {
-      x,
-      y: 230,
-      week_en: getImageArray("weekday/en", 7),
-      week_sc: getImageArray("weekday/sc", 7),
-      week_tc: getImageArray("weekday/tc", 7),
-    });
-
-  if (hasPointer) return;
+  if (hasDigits && hasPointer) return;
 
   TIME.addEventListener(TIME.event.DAYCHANGE, () => {
-    const current = getCenterX();
-    if (hasWeekday && x !== (x = current.x)) {
-      weekday.setProperty(hmUI.prop.X, x);
-    }
-    if (month_startX !== (month_startX = current.month_startX)) {
-      date.setProperty(hmUI.prop.MORE, { month_startX });
-    }
+    let { x, y, month_startX, month_startY } = getDatePosition();
+    weekday?.setProperty(hmUI.prop.MORE, { x, y });
+    date.setProperty(hmUI.prop.MORE, { month_startX, month_startY });
   });
 }

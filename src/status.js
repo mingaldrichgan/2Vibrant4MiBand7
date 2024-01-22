@@ -1,19 +1,19 @@
 const STATUS_ON_LEFT = {
-  bluetooth: { x: 3, y: 216 },
-  dnd: { x: 3, y: 248 },
+  bluetooth: { x: 0, y: 216 },
+  dnd: { x: 0, y: 248 },
 };
 
 const STATUS_ON_BOTH_SIDES = {
-  bluetooth: { x: 3, y: 232 },
-  dnd: { x: 163, y: 232 },
+  bluetooth: { x: 0, y: 232 },
+  dnd: { x: 166, y: 232 },
 };
 
-function getStatusPosition(hasPointer) {
-  return hasPointer && getDateWidth() > 43 ? STATUS_ON_LEFT : STATUS_ON_BOTH_SIDES;
+function getStatusPosition(hasDigits, hasPointer) {
+  return hasDigits && hasPointer && getDateWidth() > 43 ? STATUS_ON_LEFT : STATUS_ON_BOTH_SIDES;
 }
 
-function renderStatus(hasPointer) {
-  let currentPosition = getStatusPosition(hasPointer);
+function renderStatus(hasDigits, hasPointer) {
+  let currentPosition = getStatusPosition(hasDigits, hasPointer);
   const bluetooth = [
     hmUI.createWidget(hmUI.widget.IMG, {
       ...currentPosition.bluetooth,

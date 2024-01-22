@@ -39,14 +39,14 @@ function renderClock(isAOD, isEdit) {
   const hasDigits = isAOD ? currentType & HAS_DIGITS_AOD : currentType & HAS_DIGITS_NORMAL;
   const hasPointer = isAOD ? currentType & HAS_POINTER_AOD : currentType & HAS_POINTER_NORMAL;
 
-  if (!isAOD) renderStatus(hasPointer);
+  if (!isAOD) renderStatus(hasDigits, hasPointer);
   if (hasDigits) {
     renderDigits(isAOD);
   } else {
     hmUI.createWidget(hmUI.widget.IMG, { x: 36, y: 185, src: "pointer/analog_bg.png" });
   }
   if (hasPointer) renderPointer(isAOD);
-  if (hasDigits) renderDate(hasPointer);
+  renderDate(hasDigits, hasPointer);
 }
 
 function renderDigits(isAOD) {
