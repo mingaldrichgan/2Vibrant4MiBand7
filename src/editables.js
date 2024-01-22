@@ -26,7 +26,7 @@ function renderWidgets({ isEdit } = {}) {
 
     if (isEdit) continue;
 
-    const [currentKey, currentData] = getCurrent(editView, EDIT_WIDGETS);
+    const [currentKey, currentData] = getCurrentEntry(editView, EDIT_WIDGETS);
     _drawWidget(i, currentKey, currentData);
     keys.push(currentKey);
     urls.push(currentData?.url);
@@ -87,7 +87,7 @@ function renderBars(widgetKeys) {
 
     if (!widgetKeys) continue; // No widgetKeys in edit mode.
 
-    const [currentKey, currentData] = getCurrent(editView, EDIT_BARS);
+    const [currentKey, currentData] = getCurrentEntry(editView, EDIT_BARS);
     keys.push(currentKey);
     urls.push(currentData?.url);
   }

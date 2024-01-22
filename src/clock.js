@@ -25,7 +25,7 @@ function renderClock({ isAOD, isEdit } = {}) {
   const hasSpaceOnRightSide =
     (currentType === CLOCK_TYPES.analog_aod && isAOD) || _renderTimeDigital({ hasPointer, isAOD });
   if (hasPointer) _renderTimeAnalog(isAOD);
-  return hasSpaceOnRightSide;
+  return { hasPointer, hasSpaceOnRightSide };
 }
 
 function _renderTimeAnalog(isAOD) {

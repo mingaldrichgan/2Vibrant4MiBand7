@@ -17,7 +17,9 @@ __$$module$$__.module = DeviceRuntimeCore.WatchFace({
       default:
         const [widgetKeys, widgetUrls] = renderWidgets();
         const barUrls = renderBars(widgetKeys);
-        renderStatus(renderClock());
+        const { hasPointer, hasSpaceOnRightSide } = renderClock();
+        renderStatus(hasSpaceOnRightSide); // TODO: Status should be behind clock!
+        renderDate(hasPointer);
         initTapZones(widgetUrls, barUrls);
     }
   },

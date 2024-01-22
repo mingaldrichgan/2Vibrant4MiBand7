@@ -14,26 +14,22 @@ function _renderTimeDigital({ hasPointer, isAOD }) {
     minute_array: fontTime,
   });
 
-  return _renderDate(hasPointer);
+  return hasPointer;
 }
 
-function _renderDate(hasPointer) {
+function renderDate(hasPointer) {
   const fontDate = getImageArray("fonts/date");
-
-  function getDateWidth() {
-    return ((TIME.month < 10 ? 1 : 2) + (TIME.day < 10 ? 1 : 2)) * 14 + 10;
-  }
 
   function getCenterX() {
     const weekdayWidth = hasWeekday ? 52 : 0;
-    const x = Math.round((192 - getDateWidth() - weekdayWidth) / 2);
+    const x = Math.round((192 - getDateWidth(TIME) - weekdayWidth) / 2);
     return { x, month_startX: x + weekdayWidth };
   }
 
   let { x, month_startX } = hasPointer ? { x: 32, month_startX: 114 } : getCenterX();
   const date = hmUI.createWidget(hmUI.widget.IMG_DATE, {
     month_startX,
-    month_startY: 234,
+    month_startY: 230,
     month_en_array: fontDate,
     month_sc_array: fontDate,
     month_tc_array: fontDate,
@@ -58,7 +54,7 @@ function _renderDate(hasPointer) {
       week_tc: getImageArray("weekday/tc", 7),
     });
 
-  if (hasPointer) return getDateWidth() <= 43; // Whether there is space for a status icon on the right side.
+  if (hasPointer) return getDateWidth(TIME) <= 43; // Whether there is space for a status icon on the right side.
   // TODO: Need to move status on DAYCHANGE depending on date width.
 
   TIME.addEventListener(TIME.event.DAYCHANGE, () => {
