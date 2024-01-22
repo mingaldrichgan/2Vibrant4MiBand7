@@ -3,24 +3,12 @@ let __$$module$$__ = __$$app$$__.current;
 __$$module$$__.module = DeviceRuntimeCore.WatchFace({
   onInit() {
     const currentScreen = hmSetting.getScreenType();
-    switch (currentScreen) {
-      case hmSetting.screen_type.AOD:
-        return renderClock({ isAOD: true });
+    const isAOD = currentScreen === hmSetting.screen_type.AOD;
+    const isEdit = currentScreen === hmSetting.screen_type.SETTINGS;
 
-      case hmSetting.screen_type.SETTINGS: {
-        const isEdit = true;
-        renderWidgets({ isEdit });
-        renderBars();
-        return renderClock({ isEdit });
-      }
-
-      default:
-        const [widgetKeys, widgetUrls] = renderWidgets();
-        const barUrls = renderBars(widgetKeys);
-        const { hasPointer, hasSpaceOnRightSide } = renderClock();
-        renderStatus(hasSpaceOnRightSide); // TODO: Status should be behind clock!
-        renderDate(hasPointer);
-        initTapZones(widgetUrls, barUrls);
-    }
+    const [widgetKeys, widgetUrls] = isAOD ? [] : renderWidgets(isEdit);
+    const barUrls = renderBars(!isAOD && !isEdit && widgetKeys);
+    renderClock(isAOD, isEdit);
+    initTapZones(widgetUrls, barUrls);
   },
 });

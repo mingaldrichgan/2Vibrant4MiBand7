@@ -1,28 +1,12 @@
 const osLang = DeviceRuntimeCore.HmUtils.getLanguage();
 const hasWeekday = osLang.startsWith("en") || osLang.startsWith("zh");
 
-function _renderTimeDigital({ hasPointer, isAOD }) {
-  const fontTime = getImageArray(`fonts/clock/${isAOD ? "aod" : "normal"}`);
-  hmUI.createWidget(hmUI.widget.IMG_TIME, {
-    hour_startX: 26,
-    hour_startY: 106,
-    hour_zero: 1,
-    hour_array: fontTime,
-    minute_startX: 26,
-    minute_startY: 242,
-    minute_zero: 1,
-    minute_array: fontTime,
-  });
-
-  return hasPointer;
-}
-
 function renderDate(hasPointer) {
-  const fontDate = getImageArray("fonts/date");
+  const font = getImageArray("fonts/date");
 
   function getCenterX() {
     const weekdayWidth = hasWeekday ? 52 : 0;
-    const x = Math.round((192 - getDateWidth(TIME) - weekdayWidth) / 2);
+    const x = Math.round((192 - getDateWidth() - weekdayWidth) / 2);
     return { x, month_startX: x + weekdayWidth };
   }
 
@@ -30,17 +14,17 @@ function renderDate(hasPointer) {
   const date = hmUI.createWidget(hmUI.widget.IMG_DATE, {
     month_startX,
     month_startY: 230,
-    month_en_array: fontDate,
-    month_sc_array: fontDate,
-    month_tc_array: fontDate,
+    month_en_array: font,
+    month_sc_array: font,
+    month_tc_array: font,
     month_unit_en: "fonts/date/slash.png",
     month_unit_sc: "fonts/date/slash.png",
     month_unit_tc: "fonts/date/slash.png",
     month_zero: 0,
     day_follow: 1,
-    day_en_array: fontDate,
-    day_sc_array: fontDate,
-    day_tc_array: fontDate,
+    day_en_array: font,
+    day_sc_array: font,
+    day_tc_array: font,
     day_zero: 0,
   });
 
@@ -49,13 +33,12 @@ function renderDate(hasPointer) {
     hmUI.createWidget(hmUI.widget.IMG_WEEK, {
       x,
       y: 230,
-      week_en: getImageArray(`weekday/en`, 7),
+      week_en: getImageArray("weekday/en", 7),
       week_sc: getImageArray("weekday/sc", 7),
       week_tc: getImageArray("weekday/tc", 7),
     });
 
-  if (hasPointer) return getDateWidth(TIME) <= 43; // Whether there is space for a status icon on the right side.
-  // TODO: Need to move status on DAYCHANGE depending on date width.
+  if (hasPointer) return;
 
   TIME.addEventListener(TIME.event.DAYCHANGE, () => {
     const current = getCenterX();
@@ -66,6 +49,4 @@ function renderDate(hasPointer) {
       date.setProperty(hmUI.prop.MORE, { month_startX });
     }
   });
-
-  return true;
 }

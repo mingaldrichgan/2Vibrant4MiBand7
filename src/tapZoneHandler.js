@@ -1,4 +1,4 @@
-function _call(url) {
+function call(url) {
   switch (typeof url) {
     case "function":
       return url();
@@ -7,7 +7,7 @@ function _call(url) {
   }
 }
 
-function _changeBrightness(delta) {
+function changeBrightness(delta) {
   const val = Math.min(Math.max(0, hmSetting.getBrightness() + delta), 100);
   hmSetting.setBrightness(val);
 }
@@ -31,19 +31,19 @@ function initTapZones(widgetURLs, barURLs) {
 
     if (48 < x && x < 120) {
       if (36 < y && y < 114) {
-        return _call(widgetURLs[0]);
+        return call(widgetURLs[0]);
       } else if (376 < y && y < 454) {
-        return _call(widgetURLs[1]);
+        return call(widgetURLs[1]);
       }
     }
 
     const isLeft = x < 96;
     if (y < 160) {
-      return _call(barURLs[isLeft ? 0 : 1]); // top
+      return call(barURLs[isLeft ? 0 : 1]); // top
     } else if (y > 330) {
-      return _call(barURLs[isLeft ? 2 : 3]); // bottom
+      return call(barURLs[isLeft ? 2 : 3]); // bottom
     } else {
-      _changeBrightness(isLeft ? -10 : 10); // center
+      changeBrightness(isLeft ? -10 : 10); // center
     }
   });
 }

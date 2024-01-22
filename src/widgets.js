@@ -1,0 +1,60 @@
+function renderWidgets(isEdit) {
+  const keys = [];
+  const urls = [];
+  const optional_types = getOptionalTypes(EDIT_WIDGETS, (key) => `widgets/demo/${key}.png`);
+
+  for (let i = 0; i < 2; i++) {
+    const defaultKey = i === 0 ? "weather_current" : "heart";
+
+    const editGroup = hmUI.createWidget(hmUI.widget.WATCHFACE_EDIT_GROUP, {
+      edit_id: 110 + i,
+      x: 48,
+      y: i === 0 ? 36 : 376,
+      w: 96,
+      h: 78,
+      select_image: "edit/widgets/select.png",
+      un_select_image: "edit/widgets/unselect.png",
+      default_type: getEditType(defaultKey, EDIT_WIDGETS[defaultKey]),
+      optional_types,
+      count: optional_types.length,
+      tips_BG: "edit/tips.png",
+      tips_x: -21,
+      tips_y: i === 0 ? 80 : -32,
+      tips_width: 102,
+    });
+
+    if (isEdit) continue;
+
+    const [currentKey, currentData] = getCurrentEntry(editGroup, EDIT_WIDGETS);
+    renderWidget(i, currentKey, currentData);
+    keys.push(currentKey);
+    urls.push(currentData?.url);
+  }
+
+  return [keys, urls];
+}
+
+function renderWidget(i, currentKey, currentData) {
+  if (!currentData) return;
+
+  (
+    currentData.renderIcon ??
+    ((props) => hmUI.createWidget(hmUI.widget.IMG, { ...props, src: `widgets/icon/${currentKey}.png` }))
+  )({ x: 74, y: i === 0 ? 36 : 376 });
+
+  (
+    currentData.renderText ??
+    ((props) =>
+      hmUI.createWidget(hmUI.widget.TEXT_IMG, {
+        ...props,
+        type: hmUI.data_type[currentKey.toUpperCase()],
+      }))
+  )({
+    x: 48,
+    y: i === 0 ? 84 : 424,
+    w: 96,
+    h: 30,
+    align_h: hmUI.align.CENTER_H,
+    ...withFont(`widgets/${currentData.color}`, currentData),
+  });
+}

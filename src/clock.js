@@ -1,7 +1,22 @@
-const CLOCK_TYPES = Object.fromEntries(["digital_aod", "analog_aod", "digital_only"].map((key, i) => [key, i]));
+const HAS_DIGITS_AOD = 1;
+const HAS_DIGITS_NORMAL = 2;
+const HAS_POINTER_AOD = 4;
+const HAS_POINTER_NORMAL = 8;
 
-function renderClock({ isAOD, isEdit } = {}) {
-  const editor = hmUI.createWidget(hmUI.widget.WATCHFACE_EDIT_GROUP, {
+const CLOCK_TYPES = {
+  digital_aod: HAS_DIGITS_AOD | HAS_DIGITS_NORMAL | HAS_POINTER_NORMAL,
+  analog_aod: HAS_DIGITS_NORMAL | HAS_POINTER_AOD | HAS_POINTER_NORMAL,
+  digital_only: HAS_DIGITS_AOD | HAS_DIGITS_NORMAL,
+  analog_only: HAS_POINTER_AOD | HAS_POINTER_NORMAL,
+};
+
+function renderClock(isAOD, isEdit) {
+  const optional_types = Object.entries(CLOCK_TYPES).map(([key, type]) => ({
+    type,
+    preview: `edit/clock/demo/${key}.png`,
+  }));
+
+  const editGroup = hmUI.createWidget(hmUI.widget.WATCHFACE_EDIT_GROUP, {
     edit_id: 120,
     x: 0,
     y: 130,
@@ -10,8 +25,8 @@ function renderClock({ isAOD, isEdit } = {}) {
     select_image: "edit/clock/select.png",
     un_select_image: "edit/clock/unselect.png",
     default_type: CLOCK_TYPES.digital_aod,
-    optional_types: Object.entries(CLOCK_TYPES).map(([key, type]) => ({ type, preview: `edit/clock/demo/${key}.png` })),
-    count: 3,
+    optional_types,
+    count: optional_types.length,
     tips_BG: "",
     tips_x: -1000,
     tips_y: 0,
@@ -20,15 +35,36 @@ function renderClock({ isAOD, isEdit } = {}) {
 
   if (isEdit) return;
 
-  const currentType = editor.getProperty(hmUI.prop.CURRENT_TYPE);
-  const hasPointer = currentType === CLOCK_TYPES.analog_aod || (currentType === CLOCK_TYPES.digital_aod && !isAOD);
-  const hasSpaceOnRightSide =
-    (currentType === CLOCK_TYPES.analog_aod && isAOD) || _renderTimeDigital({ hasPointer, isAOD });
-  if (hasPointer) _renderTimeAnalog(isAOD);
-  return { hasPointer, hasSpaceOnRightSide };
+  const currentType = editGroup.getProperty(hmUI.prop.CURRENT_TYPE);
+  const hasDigits = isAOD ? currentType & HAS_DIGITS_AOD : currentType & HAS_DIGITS_NORMAL;
+  const hasPointer = isAOD ? currentType & HAS_POINTER_AOD : currentType & HAS_POINTER_NORMAL;
+
+  if (!isAOD) renderStatus(hasPointer);
+  if (hasDigits) {
+    renderDigits(isAOD);
+  } else {
+    hmUI.createWidget(hmUI.widget.IMG, { x: 36, y: 185, src: "pointer/analog_bg.png" });
+  }
+  if (hasPointer) renderPointer(isAOD);
+  if (hasDigits) renderDate(hasPointer);
 }
 
-function _renderTimeAnalog(isAOD) {
+function renderDigits(isAOD) {
+  const font = getImageArray(`fonts/clock/${isAOD ? "aod" : "normal"}`);
+
+  hmUI.createWidget(hmUI.widget.IMG_TIME, {
+    hour_startX: 26,
+    hour_startY: 106,
+    hour_zero: 1,
+    hour_array: font,
+    minute_startX: 26,
+    minute_startY: 242,
+    minute_zero: 1,
+    minute_array: font,
+  });
+}
+
+function renderPointer(isAOD) {
   hmUI.createWidget(hmUI.widget.TIME_POINTER, {
     hour_centerX: 96,
     hour_centerY: 245,
