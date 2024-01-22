@@ -9,9 +9,9 @@ function renderDate(hasDigits, hasPointer) {
     if (hasPointer) {
       return {
         x: Math.round((192 - weekdayWidth) / 2),
-        y: 145,
+        y: 133,
         month_startX: Math.round((192 - getDateWidth()) / 2),
-        month_startY: 315,
+        month_startY: 327,
       };
     }
 

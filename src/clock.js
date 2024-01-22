@@ -4,10 +4,10 @@ const HAS_POINTER_AOD = 4;
 const HAS_POINTER_NORMAL = 8;
 
 const CLOCK_TYPES = {
-  digital_aod: HAS_DIGITS_AOD | HAS_DIGITS_NORMAL | HAS_POINTER_NORMAL,
   analog_aod: HAS_DIGITS_NORMAL | HAS_POINTER_AOD | HAS_POINTER_NORMAL,
-  digital_only: HAS_DIGITS_AOD | HAS_DIGITS_NORMAL,
   analog_only: HAS_POINTER_AOD | HAS_POINTER_NORMAL,
+  digital_aod: HAS_DIGITS_AOD | HAS_DIGITS_NORMAL | HAS_POINTER_NORMAL,
+  digital_only: HAS_DIGITS_AOD | HAS_DIGITS_NORMAL,
 };
 
 function renderClock(isAOD, isEdit) {
@@ -24,7 +24,7 @@ function renderClock(isAOD, isEdit) {
     h: 230,
     select_image: "edit/clock/select.png",
     un_select_image: "edit/clock/unselect.png",
-    default_type: CLOCK_TYPES.digital_aod,
+    default_type: CLOCK_TYPES.analog_aod,
     optional_types,
     count: optional_types.length,
     tips_BG: "",
