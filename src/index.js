@@ -6,9 +6,9 @@ __$$module$$__.module = DeviceRuntimeCore.WatchFace({
     const isAOD = currentScreen === hmSetting.screen_type.AOD;
     const isEdit = currentScreen === hmSetting.screen_type.SETTINGS;
 
+    renderClock(isAOD, isEdit);
     const [widgetKeys, widgetUrls] = isAOD ? [] : renderWidgets(isEdit);
     const barUrls = renderBars(!isAOD && !isEdit && widgetKeys);
-    renderClock(isAOD, isEdit);
     initTapZones(widgetUrls, barUrls);
   },
 });
