@@ -27,10 +27,6 @@ function renderClock(isAOD, isEdit) {
     default_type: CLOCK_TYPES.analog_aod,
     optional_types,
     count: optional_types.length,
-    tips_BG: "",
-    tips_x: -1000,
-    tips_y: 0,
-    tips_width: 1,
   });
 
   if (isEdit) return;

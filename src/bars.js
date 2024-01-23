@@ -12,15 +12,15 @@ function renderBars(widgetKeys) {
       y: i < 2 ? 0 : 354,
       w: 96,
       h: 136,
-      select_image: `edit/${i}a.png`,
-      un_select_image: `edit/${i}.png`,
+      select_image: `edit/bars/${i}/select.png`,
+      un_select_image: `edit/bars/${i}/unselect.png`,
       default_type: getEditType(defaultKey, EDIT_BARS[defaultKey]),
       optional_types,
       count: optional_types.length,
       tips_BG: "edit/tips.png",
-      tips_x: i % 2 === 0 ? 27 : -69,
-      tips_y: i < 2 ? 116 : -10,
-      tips_width: 102,
+      tips_x: i % 2 === 0 ? 34 : -62,
+      tips_y: i < 2 ? 126 : -26,
+      tips_width: 124,
     });
 
     if (!widgetKeys) continue; // No widgetKeys in edit mode.

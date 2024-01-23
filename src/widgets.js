@@ -9,7 +9,7 @@ function renderWidgets(isEdit) {
     const editGroup = hmUI.createWidget(hmUI.widget.WATCHFACE_EDIT_GROUP, {
       edit_id: 110 + i,
       x: 48,
-      y: i === 0 ? 36 : 376,
+      y: i === 0 ? 44 : 368,
       w: 96,
       h: 78,
       select_image: "edit/widgets/select.png",
@@ -18,9 +18,9 @@ function renderWidgets(isEdit) {
       optional_types,
       count: optional_types.length,
       tips_BG: "edit/tips.png",
-      tips_x: -21,
-      tips_y: i === 0 ? 80 : -32,
-      tips_width: 102,
+      tips_x: -14,
+      tips_y: i === 0 ? 82 : -40,
+      tips_width: 124,
     });
 
     if (isEdit) continue;
