@@ -1,59 +1,51 @@
-const osLang = DeviceRuntimeCore.HmUtils.getLanguage();
-const hasWeekday = osLang.startsWith("en") || osLang.startsWith("zh");
+const language = DeviceRuntimeCore.HmUtils.getLanguage();
+const hasDay = language.startsWith("en") || language.startsWith("zh");
 
 function renderDate(hasDigits, hasPointer) {
   function getDatePosition() {
     if (hasDigits && hasPointer) return { x: 32, y: 230, month_startX: 114, month_startY: 230 };
 
-    const weekdayWidth = hasWeekday ? 52 : 0;
+    const dayWidth = hasDay ? 52 : 0;
     if (hasPointer) {
       return {
-        x: Math.round((192 - weekdayWidth) / 2),
+        x: Math.round((192 - dayWidth) / 2),
         y: 133,
         month_startX: Math.round((192 - getDateWidth()) / 2),
         month_startY: 327,
       };
     }
 
-    const x = Math.round((192 - getDateWidth() - weekdayWidth) / 2);
-    return { x, y: 230, month_startX: x + weekdayWidth, month_startY: 230 };
+    const x = Math.round((192 - getDateWidth() - dayWidth) / 2);
+    return { x, y: 230, month_startX: x + dayWidth, month_startY: 230 };
   }
 
   let { x, y, month_startX, month_startY } = getDatePosition();
   const font = getImageArray("fonts/date");
 
-  const weekday =
-    hasWeekday &&
+  const day =
+    hasDay &&
     hmUI.createWidget(hmUI.widget.IMG_WEEK, {
       x,
       y,
-      week_en: getImageArray("weekday/en", 7),
-      week_sc: getImageArray("weekday/sc", 7),
-      week_tc: getImageArray("weekday/tc", 7),
+      ...mapLanguage((lang) => [`week_${lang}`, getImageArray(`days/${lang}`, 7)]),
     });
 
   const date = hmUI.createWidget(hmUI.widget.IMG_DATE, {
     month_startX,
     month_startY,
-    month_en_array: font,
-    month_sc_array: font,
-    month_tc_array: font,
-    month_unit_en: "fonts/date/slash.png",
-    month_unit_sc: "fonts/date/slash.png",
-    month_unit_tc: "fonts/date/slash.png",
     month_zero: 0,
+    ...mapLanguage((lang) => [`month_${lang}_array`, font]),
+    ...mapLanguage((lang) => [`month_unit_${lang}`, "fonts/date/slash.png"]),
     day_follow: 1,
-    day_en_array: font,
-    day_sc_array: font,
-    day_tc_array: font,
     day_zero: 0,
+    ...mapLanguage((lang) => [`day_${lang}_array`, font]),
   });
 
   if (hasDigits && hasPointer) return;
 
   TIME.addEventListener(TIME.event.DAYCHANGE, () => {
     let { x, y, month_startX, month_startY } = getDatePosition();
-    weekday?.setProperty(hmUI.prop.MORE, { x, y });
+    day?.setProperty(hmUI.prop.MORE, { x, y });
     date.setProperty(hmUI.prop.MORE, { month_startX, month_startY });
   });
 }

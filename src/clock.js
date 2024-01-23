@@ -13,7 +13,7 @@ const CLOCK_TYPES = {
 function renderClock(isAOD, isEdit) {
   const optional_types = Object.entries(CLOCK_TYPES).map(([key, type]) => ({
     type,
-    preview: `edit/clock/demo/${key}.png`,
+    preview: `edit/clock/preview/${key}.png`,
   }));
 
   const editGroup = hmUI.createWidget(hmUI.widget.WATCHFACE_EDIT_GROUP, {
