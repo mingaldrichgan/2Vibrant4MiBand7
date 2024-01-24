@@ -75,7 +75,7 @@ function renderBar(i, isMerged, currentKey, currentData, adjacentWidgetKey) {
   const x = (isMerged ? [96, 4] : [4, 96, 4, 96])[i];
   (
     currentData.renderText ??
-    ((props) => hmUI.createWidget(hmUI.widget.TEXT_IMG, { ...props, type: hmUI.data_type[currentKey.toUpperCase()] }))
+    ((props) => hmUI.createWidget(hmUI.widget.TEXT_IMG, { ...props, type: hmUI.data_type[currentKey] }))
   )({
     _name: `bars[${i}].text`,
     x,
