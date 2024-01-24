@@ -3,29 +3,26 @@ function renderBars(widgetKeys) {
   const urls = [];
 
   for (let i = 0; i < 4; i++) {
-    const optional_types = getOptionalTypes(BARS, (key) => `edit/bars/${i}/preview/${key}.png`);
+    const optional_types = getOptionalTypes(BAR_TYPES, (key) => `edit/bars/${i}/preview/${key}.png`);
     const defaultKey = ["STEP", "CAL", "BATTERY", "BATTERY"][i];
 
     const editGroup = hmUI.createWidget(hmUI.widget.WATCHFACE_EDIT_GROUP, {
+      _name: `bars[${i}]`,
       edit_id: 101 + i,
       x: i % 2 === 0 ? 0 : 96,
       y: i < 2 ? 0 : 354,
       w: 96,
       h: 136,
-      select_image: `edit/bars/${i}/select.png`,
-      un_select_image: `edit/bars/${i}/unselect.png`,
-      default_type: getEditType(defaultKey, BARS[defaultKey]),
+      default_type: getEditType(defaultKey, BAR_TYPES[defaultKey]),
       optional_types,
       count: optional_types.length,
-      tips_BG: "edit/tips.png",
-      tips_x: i % 2 === 0 ? 34 : -62,
-      tips_y: i < 2 ? 126 : -26,
-      tips_width: 124,
+      ...withSelect(`edit/bars/${i}`),
+      ...withTip(i % 2 === 0 ? 12 : -68, i < 2 ? 136 : -36),
     });
 
     if (!widgetKeys) continue; // No widgetKeys in edit mode.
 
-    const [currentKey, currentData] = getCurrentEntry(editGroup, BARS);
+    const [currentKey, currentData] = getCurrentEntry(editGroup, BAR_TYPES);
     keys.push(currentKey);
     urls.push(currentData?.url);
   }
@@ -36,9 +33,9 @@ function renderBars(widgetKeys) {
       const i = w * 2; // left
       const j = i + 1; // right
       const isMerged = keys[i] === keys[j];
-      renderBar(isMerged ? w : i, isMerged, keys[i], BARS[keys[i]], widgetKeys[w]);
+      renderBar(isMerged ? w : i, isMerged, keys[i], BAR_TYPES[keys[i]], widgetKeys[w]);
       if (!isMerged) {
-        renderBar(j, false, keys[j], BARS[keys[j]], widgetKeys[w]);
+        renderBar(j, false, keys[j], BAR_TYPES[keys[j]], widgetKeys[w]);
       }
     }
   }
@@ -59,16 +56,17 @@ function renderBar(i, isMerged, currentKey, currentData, adjacentWidgetKey) {
   };
 
   const { fg, bg, font } = currentData.color;
-  hmUI.createWidget(hmUI.widget.ARC_PROGRESS, { ...arcProps, color: bg, level: 100 });
+  hmUI.createWidget(hmUI.widget.ARC_PROGRESS, { _name: `bars[${i}].arc.bg`, ...arcProps, color: bg, level: 100 });
 
   (
     currentData.renderArc ??
     ((props) => hmUI.createWidget(hmUI.widget.ARC_PROGRESS, { ...props, type: hmUI.data_type[currentKey] }))
-  )({ ...arcProps, color: fg });
+  )({ _name: `bars[${i}].arc.fg`, ...arcProps, color: fg });
 
   if (currentKey === adjacentWidgetKey) return;
 
   hmUI.createWidget(hmUI.widget.IMG, {
+    _name: `bars[${i}].icon`,
     x: (isMerged ? [3, 167] : [27, 143, 27, 143])[i],
     y: (isMerged ? [99, 369] : [74, 74, 394, 394])[i],
     src: `icons/bars/${currentKey}.png`,
@@ -79,6 +77,7 @@ function renderBar(i, isMerged, currentKey, currentData, adjacentWidgetKey) {
     currentData.renderText ??
     ((props) => hmUI.createWidget(hmUI.widget.TEXT_IMG, { ...props, type: hmUI.data_type[currentKey.toUpperCase()] }))
   )({
+    _name: `bars[${i}].text`,
     x,
     y: (isMerged ? [100, 372] : [100, 100, 372, 372])[i],
     w: 92,

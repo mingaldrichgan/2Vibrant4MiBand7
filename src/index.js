@@ -5,10 +5,11 @@ __$$module$$__.module = DeviceRuntimeCore.WatchFace({
     const currentScreen = hmSetting.getScreenType();
     const isAOD = currentScreen === hmSetting.screen_type.AOD;
     const isEdit = currentScreen === hmSetting.screen_type.SETTINGS;
+    const isNormal = !isAOD && !isEdit;
 
     renderClock(isAOD, isEdit);
     const [widgetKeys, widgetUrls] = isAOD ? [] : renderWidgets(isEdit);
-    const barUrls = renderBars(!isAOD && !isEdit && widgetKeys);
-    initTapZones(widgetUrls, barUrls);
+    const barUrls = renderBars(isNormal && widgetKeys);
+    if (isNormal) initTapZones(widgetUrls, barUrls);
   },
 });

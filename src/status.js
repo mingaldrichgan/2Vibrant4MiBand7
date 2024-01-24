@@ -16,10 +16,12 @@ function renderStatus(hasDigits, hasPointer) {
   let currentPosition = getStatusPosition(hasDigits, hasPointer);
   const bluetooth = [
     hmUI.createWidget(hmUI.widget.IMG, {
+      _name: "status.bluetooth.on",
       ...currentPosition.bluetooth,
       src: "status/bluetooth_on.png",
     }),
     hmUI.createWidget(hmUI.widget.IMG_STATUS, {
+      _name: "status.bluetooth.off",
       ...currentPosition.bluetooth,
       src: "status/bluetooth_off.png",
       type: hmUI.system_status.DISCONNECT,
@@ -28,10 +30,12 @@ function renderStatus(hasDigits, hasPointer) {
 
   const dnd = [
     hmUI.createWidget(hmUI.widget.IMG, {
+      _name: "status.dnd.off",
       ...currentPosition.dnd,
       src: "status/dnd_off.png",
     }),
     hmUI.createWidget(hmUI.widget.IMG_STATUS, {
+      _name: "status.dnd.on",
       ...currentPosition.dnd,
       src: "status/dnd_on.png",
       type: hmUI.system_status.DISTURB,

@@ -25,12 +25,14 @@ function renderDate(hasDigits, hasPointer) {
   const day =
     hasDay &&
     hmUI.createWidget(hmUI.widget.IMG_WEEK, {
+      _name: "day",
       x,
       y,
       ...mapLanguage((lang) => [`week_${lang}`, getImageArray(`days/${lang}`, 7)]),
     });
 
   const date = hmUI.createWidget(hmUI.widget.IMG_DATE, {
+    _name: "date",
     month_startX,
     month_startY,
     month_zero: 0,

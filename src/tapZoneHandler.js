@@ -16,6 +16,7 @@ function initTapZones(widgetURLs, barURLs) {
   let mustHandle = false;
 
   const zone = hmUI.createWidget(hmUI.widget.IMG, {
+    _name: "events",
     x: 0,
     y: 0,
     w: 192,
