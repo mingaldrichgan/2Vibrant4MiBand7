@@ -59,7 +59,7 @@ export const WIDGET_TYPES = {
 
         const [, , endTime] = state.split(":").map((v) => parseInt(v));
         const secondsLeft = Math.floor((endTime - Date.now()) / 1000);
-        if (secondsLeft <= 0) return "-";
+        if (secondsLeft < 0) return "-";
 
         const hasHours = secondsLeft >= 3600;
         const beforeColon = Math.trunc(secondsLeft / (hasHours ? 3600 : 60));

@@ -1,6 +1,6 @@
 import { SLEEP } from "./sensors";
 
-const getBrightness = { fn: hmSetting.getBrightness, ms: 100 };
+const getBrightness = { fn: hmSetting.getBrightness, ms: 250 };
 const getSleepScore = { fn: () => SLEEP.getBasicInfo().score, ms: 1000 };
 
 export const BAR_TYPES = {
