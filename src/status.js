@@ -1,11 +1,11 @@
 const STATUS_ON_LEFT = {
-  bluetooth: { x: 0, y: 216 },
-  dnd: { x: 0, y: 248 },
+  bluetooth: { x: 2, y: 219 },
+  dnd: { x: 2, y: 247 },
 };
 
 const STATUS_ON_BOTH_SIDES = {
-  bluetooth: { x: 0, y: 232 },
-  dnd: { x: 166, y: 232 },
+  bluetooth: { x: 2, y: 233 },
+  dnd: { x: 166, y: 233 },
 };
 
 function getStatusPosition(hasDigits, hasPointer) {

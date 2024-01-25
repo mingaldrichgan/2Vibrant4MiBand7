@@ -1,10 +1,10 @@
 function renderWidgets(isEdit) {
-  const keys = [];
-  const urls = [];
+  const widgetKeys = [];
+  const widgetUrls = [];
   const optional_types = getOptionalTypes(WIDGET_TYPES, (key) => `edit/widgets/preview/${key}.png`);
 
   for (let i = 0; i < 2; i++) {
-    const defaultKey = i === 0 ? "WEATHER_CURRENT" : "HEART";
+    const defaultKey = i === 0 ? "WEATHER_CURRENT" : "STEP";
 
     const editGroup = hmUI.createWidget(hmUI.widget.WATCHFACE_EDIT_GROUP, {
       _name: `widgets[${i}]`,
@@ -26,11 +26,11 @@ function renderWidgets(isEdit) {
 
     const [currentKey, currentData] = getCurrentEntry(editGroup, WIDGET_TYPES);
     renderWidget(i, currentKey, currentData);
-    keys.push(currentKey);
-    urls.push(currentData?.url);
+    widgetKeys.push(currentKey);
+    widgetUrls.push(currentData?.url);
   }
 
-  return [keys, urls];
+  return { widgetKeys, widgetUrls };
 }
 
 function renderWidget(i, currentKey, currentData) {
@@ -41,16 +41,20 @@ function renderWidget(i, currentKey, currentData) {
     ((props) => hmUI.createWidget(hmUI.widget.IMG, { ...props, src: `icons/widgets/${currentKey}.png` }))
   )({ _name: `widgets[${i}].icon`, x: 74, y: i === 0 ? 35 : 377 });
 
-  (
-    currentData.renderText ??
-    ((props) => hmUI.createWidget(hmUI.widget.TEXT_IMG, { ...props, type: hmUI.data_type[currentKey] }))
-  )({
+  const { color } = getColor(currentData);
+  const { getText } = currentData;
+
+  const text = hmUI.createWidget(hmUI.widget.TEXT_IMG, {
     _name: `widgets[${i}].text`,
     x: 48,
     y: i === 0 ? 83 : 425,
     w: 96,
     h: 30,
     align_h: hmUI.align.CENTER_H,
-    ...withFont(`widgets/${currentData.color?.font ?? currentKey}`, currentData),
+    ...currentData.textProps,
+    ...withFont(`widgets/${color ?? currentKey}`, currentData),
+    ...(getText ? { text: getText.fn() } : { type: hmUI.data_type[currentKey] }),
   });
+
+  if (getText) timer.createTimer(getText.ms, getText.ms, () => text.setProperty(hmUI.prop.TEXT, String(getText.fn())));
 }

@@ -58,12 +58,12 @@ function renderClock(isAOD, isEdit) {
   const hasPointer = isAOD ? currentType & HAS_POINTER_AOD : currentType & HAS_POINTER_NORMAL;
 
   if (!isAOD) renderStatus(hasDigits, hasPointer);
-  if (hasDigits) {
-    renderDigits(isAOD);
-  } else {
-    hmUI.createWidget(hmUI.widget.IMG, { x: 36, y: 185, src: "pointer/analog_bg.png" });
-  }
+
+  if (hasDigits) renderDigits(isAOD);
+  else hmUI.createWidget(hmUI.widget.IMG, { x: 36, y: 185, src: "pointer/analog_bg.png" });
+
   if (hasPointer) renderPointer(isAOD);
+
   renderDate(hasDigits, hasPointer);
 }
 
@@ -99,10 +99,12 @@ function renderPointer(isAOD) {
     minute_cover_path: `pointer/center_${isAOD ? "aod" : "normal"}.png`,
     minute_cover_x: 84,
     minute_cover_y: 233,
-    second_centerX: isAOD ? undefined : 96,
-    second_centerY: isAOD ? undefined : 245,
-    second_posX: isAOD ? undefined : 6,
-    second_posY: isAOD ? undefined : 98,
-    second_path: isAOD ? undefined : "pointer/second.p.png",
+    ...(isAOD || {
+      second_centerX: 96,
+      second_centerY: 245,
+      second_posX: 6,
+      second_posY: 98,
+      second_path: "pointer/second.p.png",
+    }),
   });
 }
