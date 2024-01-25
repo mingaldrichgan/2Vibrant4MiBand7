@@ -1,6 +1,8 @@
-let timerText = "0";
+import { BAR_TYPES } from "./bars";
+import { TIME, WEATHER } from "./sensors";
+import { getImageArray } from "./utils";
 
-const WIDGET_TYPES = {
+export const WIDGET_TYPES = {
   WEATHER_CURRENT: {
     type: { value: 11, en: "Weather", sc: "天气", tc: "天氣" },
     url: "WeatherScreen",

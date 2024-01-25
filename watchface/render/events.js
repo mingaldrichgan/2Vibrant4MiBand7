@@ -6,7 +6,7 @@ function changeBrightness(delta) {
   hmSetting.setBrightness(Math.min(Math.max(0, hmSetting.getBrightness() + delta), 100));
 }
 
-function renderEventLayer(widgetURLs, barURLs) {
+export function renderEventLayer(widgetURLs, barURLs) {
   let mustHandle = false;
   const zone = hmUI.createWidget(hmUI.widget.IMG, { _name: "events", x: 0, y: 0, w: 192, h: 490 });
 

@@ -1,3 +1,5 @@
+import { getDateWidth, TIME } from "../lib/sensors";
+
 const STATUS_ON_LEFT = {
   bluetooth: { x: 0, y: 216 },
   dnd: { x: 0, y: 248 },
@@ -8,12 +10,8 @@ const STATUS_ON_BOTH_SIDES = {
   dnd: { x: 166, y: 232 },
 };
 
-function getStatusPosition(hasDigits, hasPointer) {
-  return hasDigits && hasPointer && getDateWidth() > 46 ? STATUS_ON_LEFT : STATUS_ON_BOTH_SIDES;
-}
-
-function renderStatus(hasDigits, hasPointer) {
-  let currentPosition = getStatusPosition(hasDigits, hasPointer);
+export function renderStatus(hasDigits, hasPointer) {
+  let currentPosition = getStatusPosition();
   const bluetooth = [
     hmUI.createWidget(hmUI.widget.IMG, {
       _name: "status.bluetooth.on",
@@ -45,9 +43,13 @@ function renderStatus(hasDigits, hasPointer) {
   if (!hasDigits || !hasPointer) return;
 
   TIME.addEventListener(TIME.event.DAYCHANGE, () => {
-    if (currentPosition !== (currentPosition = getStatusPosition(hasDigits, hasPointer))) {
+    if (currentPosition !== (currentPosition = getStatusPosition())) {
       for (let widget of bluetooth) widget.setProperty(hmUI.prop.MORE, currentPosition.bluetooth);
       for (let widget of dnd) widget.setProperty(hmUI.prop.MORE, currentPosition.dnd);
     }
   });
+
+  function getStatusPosition() {
+    return hasDigits && hasPointer && getDateWidth() > 46 ? STATUS_ON_LEFT : STATUS_ON_BOTH_SIDES;
+  }
 }

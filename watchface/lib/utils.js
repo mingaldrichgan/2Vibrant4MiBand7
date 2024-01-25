@@ -1,21 +1,17 @@
-function getCurrentEntry(editGroup, types) {
+export function getCurrentEntry(editGroup, types) {
   const currentType = editGroup.getProperty(hmUI.prop.CURRENT_TYPE);
   return Object.entries(types).find((entry) => getEditType(...entry) === currentType) ?? [];
 }
 
-function getDateWidth() {
-  return ((TIME.month < 10 ? 1 : 2) + (TIME.day < 10 ? 1 : 2)) * 14 + 10;
-}
-
-function getEditType(key, { type }) {
+export function getEditType(key, { type }) {
   return type?.value ?? hmUI.edit_type[key];
 }
 
-function getImageArray(dir, length = 10) {
+export function getImageArray(dir, length = 10) {
   return Array.from({ length }, (_, i) => `${dir}/${i}.png`);
 }
 
-function getOptionalTypes(types, toPreviewFn) {
+export function getOptionalTypes(types, toPreviewFn) {
   return [
     ...Object.entries(types).map(([key, data]) => ({
       type: getEditType(key, data),
@@ -26,11 +22,11 @@ function getOptionalTypes(types, toPreviewFn) {
   ];
 }
 
-function mapLanguage(toEntriesFn) {
+export function mapLanguage(toEntriesFn) {
   return Object.fromEntries(["en", "sc", "tc"].map(toEntriesFn));
 }
 
-function withFont(subdir, { symbols: { invalid, minus, dot, unit } = {} }) {
+export function withFont(subdir, { symbols: { invalid, minus, dot, unit } = {} }) {
   const dir = `fonts/${subdir}`;
   return {
     font_array: getImageArray(dir),
@@ -41,10 +37,10 @@ function withFont(subdir, { symbols: { invalid, minus, dot, unit } = {} }) {
   };
 }
 
-function withSelect(dir) {
+export function withSelect(dir) {
   return { select_image: `${dir}/select.png`, un_select_image: `${dir}/unselect.png` };
 }
 
-function withTip(tips_x, tips_y) {
+export function withTip(tips_x, tips_y) {
   return { tips_BG: "edit/tips.png", tips_x, tips_y, tips_width: 152 };
 }

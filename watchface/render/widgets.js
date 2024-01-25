@@ -1,10 +1,14 @@
-function renderWidgets(isEdit) {
+import { getColor } from "../lib/colors";
+import { getCurrentEntry, getEditType, getOptionalTypes, withFont, withSelect, withTip } from "../lib/utils";
+import { WIDGET_TYPES } from "../lib/widgets";
+
+export function renderWidgets(isEdit) {
   const widgetKeys = [];
   const widgetUrls = [];
   const optional_types = getOptionalTypes(WIDGET_TYPES, (key) => `edit/widgets/preview/${key}.png`);
 
   for (let i = 0; i < 2; i++) {
-    const defaultKey = i === 0 ? "WEATHER_CURRENT" : "STEP";
+    const defaultKey = i === 0 ? "WEATHER_CURRENT" : "HEART";
 
     const editGroup = hmUI.createWidget(hmUI.widget.WATCHFACE_EDIT_GROUP, {
       _name: `widgets[${i}]`,

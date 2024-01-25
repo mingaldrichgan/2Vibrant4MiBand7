@@ -1,7 +1,9 @@
+import { SLEEP } from "./sensors";
+
 const getBrightness = { fn: hmSetting.getBrightness, ms: 100 };
 const getSleepScore = { fn: () => SLEEP.getBasicInfo().score, ms: 1000 };
 
-const BAR_TYPES = {
+export const BAR_TYPES = {
   HUMIDITY: { url: "WeatherScreen", color: { fg: 0x0dd3ff, bg: 0x043f4c } },
   BATTERY: {
     url: "Settings_batteryManagerScreen",

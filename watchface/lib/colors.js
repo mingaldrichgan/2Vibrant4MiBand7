@@ -5,6 +5,6 @@ const COLORS = {
   white: { fg: 0xdfdfdf, bg: 0x424242 },
 };
 
-function getColor({ color = "white" }) {
+export function getColor({ color = "white" }) {
   return typeof color === "string" ? { ...COLORS[color], color } : color;
 }

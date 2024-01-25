@@ -1,3 +1,8 @@
+import { renderBars } from "./render/bars";
+import { renderClock } from "./render/clock";
+import { renderEventLayer } from "./render/events";
+import { renderWidgets } from "./render/widgets";
+
 __$$hmAppManager$$__.currentApp.current.module = DeviceRuntimeCore.WatchFace({
   onInit() {
     const currentScreen = hmSetting.getScreenType();

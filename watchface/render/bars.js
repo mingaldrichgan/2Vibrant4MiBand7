@@ -1,4 +1,8 @@
-function renderBars(widgetKeys) {
+import { BAR_TYPES } from "../lib/bars";
+import { getColor } from "../lib/colors";
+import { getCurrentEntry, getEditType, getOptionalTypes, withFont, withSelect, withTip } from "../lib/utils";
+
+export function renderBars(widgetKeys) {
   const barKeys = [];
   const barUrls = [];
 
