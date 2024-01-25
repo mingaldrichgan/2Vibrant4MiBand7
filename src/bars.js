@@ -4,7 +4,7 @@ function renderBars(widgetKeys) {
 
   for (let i = 0; i < 4; i++) {
     const optional_types = getOptionalTypes(BAR_TYPES, (key) => `edit/bars/${i}/preview/${key}.png`);
-    const defaultKey = ["BRIGHTNESS", "BATTERY", "DISTANCE", "DISTANCE"][i];
+    const defaultKey = ["STEP", "CAL", "BATTERY", "BATTERY"][i];
 
     const editGroup = hmUI.createWidget(hmUI.widget.WATCHFACE_EDIT_GROUP, {
       _name: `bars[${i}]`,

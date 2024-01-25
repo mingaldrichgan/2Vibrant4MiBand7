@@ -19,18 +19,18 @@ function renderEventLayer(widgetURLs, barURLs) {
 
     if (48 <= x && x < 144) {
       if (35 <= y && y < 113) {
-        call(widgetURLs[0]);
+        call(widgetURLs[0]); // top
       } else if (376 < y && y < 455) {
-        call(widgetURLs[1]);
+        call(widgetURLs[1]); // bottom
       }
     } else {
       const isLeft = x < 96;
       if (y < 130) {
-        call(barURLs[isLeft ? 0 : 1]);
+        call(barURLs[isLeft ? 0 : 1]); // top
       } else if (y >= 360) {
-        call(barURLs[isLeft ? 2 : 3]);
+        call(barURLs[isLeft ? 2 : 3]); // center
       } else {
-        changeBrightness(isLeft ? -10 : 10);
+        changeBrightness(isLeft ? -10 : 10); // bottom
       }
     }
   });
