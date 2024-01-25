@@ -59,8 +59,11 @@ function renderClock(isAOD, isEdit) {
 
   if (!isAOD) renderStatus(hasDigits, hasPointer);
 
-  if (hasDigits) renderDigits(isAOD);
-  else hmUI.createWidget(hmUI.widget.IMG, { x: 36, y: 185, src: "pointer/analog_bg.png" });
+  if (hasDigits) {
+    renderDigits(isAOD);
+  } else {
+    hmUI.createWidget(hmUI.widget.IMG, { x: 36, y: 185, src: "pointer/analog_bg.png" });
+  }
 
   if (hasPointer) renderPointer(isAOD);
 

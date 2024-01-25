@@ -34,7 +34,9 @@ function renderBars(widgetKeys) {
       const j = i + 1; // right
       const isMerged = barKeys[i] === barKeys[j];
       renderBar(isMerged ? w : i, isMerged, barKeys[i], BAR_TYPES[barKeys[i]], widgetKeys[w]);
-      if (!isMerged) renderBar(j, false, barKeys[j], BAR_TYPES[barKeys[j]], widgetKeys[w]);
+      if (!isMerged) {
+        renderBar(j, false, barKeys[j], BAR_TYPES[barKeys[j]], widgetKeys[w]);
+      }
     }
   }
 
@@ -65,8 +67,9 @@ function renderBar(i, isMerged, currentKey, currentData, adjacentWidgetKey) {
     ...(getProgress ? { level: getProgress.fn() } : { type: hmUI.data_type[currentData.progressKey ?? currentKey] }),
   });
 
-  if (getProgress)
+  if (getProgress) {
     timer.createTimer(getProgress.ms, getProgress.ms, () => arc.setProperty(hmUI.prop.LEVEL, getProgress.fn()));
+  }
 
   if (currentKey === adjacentWidgetKey) return;
 
@@ -88,5 +91,7 @@ function renderBar(i, isMerged, currentKey, currentData, adjacentWidgetKey) {
     ...(getText ? { text: getText.fn() } : { type: hmUI.data_type[currentKey] }),
   });
 
-  if (getText) timer.createTimer(getText.ms, getText.ms, () => text.setProperty(hmUI.prop.TEXT, String(getText.fn())));
+  if (getText) {
+    timer.createTimer(getText.ms, getText.ms, () => text.setProperty(hmUI.prop.TEXT, String(getText.fn())));
+  }
 }

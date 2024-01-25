@@ -1,15 +1,15 @@
 const STATUS_ON_LEFT = {
-  bluetooth: { x: 2, y: 219 },
-  dnd: { x: 2, y: 247 },
+  bluetooth: { x: 0, y: 216 },
+  dnd: { x: 0, y: 248 },
 };
 
 const STATUS_ON_BOTH_SIDES = {
-  bluetooth: { x: 2, y: 233 },
-  dnd: { x: 166, y: 233 },
+  bluetooth: { x: 0, y: 232 },
+  dnd: { x: 166, y: 232 },
 };
 
 function getStatusPosition(hasDigits, hasPointer) {
-  return hasDigits && hasPointer && getDateWidth() > 43 ? STATUS_ON_LEFT : STATUS_ON_BOTH_SIDES;
+  return hasDigits && hasPointer && getDateWidth() > 46 ? STATUS_ON_LEFT : STATUS_ON_BOTH_SIDES;
 }
 
 function renderStatus(hasDigits, hasPointer) {
@@ -42,10 +42,10 @@ function renderStatus(hasDigits, hasPointer) {
     }),
   ];
 
-  if (!hasPointer) return;
+  if (!hasDigits || !hasPointer) return;
 
   TIME.addEventListener(TIME.event.DAYCHANGE, () => {
-    if (currentPosition !== (currentPosition = getStatusPosition(hasPointer))) {
+    if (currentPosition !== (currentPosition = getStatusPosition(hasDigits, hasPointer))) {
       for (let widget of bluetooth) widget.setProperty(hmUI.prop.MORE, currentPosition.bluetooth);
       for (let widget of dnd) widget.setProperty(hmUI.prop.MORE, currentPosition.dnd);
     }

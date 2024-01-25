@@ -56,5 +56,7 @@ function renderWidget(i, currentKey, currentData) {
     ...(getText ? { text: getText.fn() } : { type: hmUI.data_type[currentKey] }),
   });
 
-  if (getText) timer.createTimer(getText.ms, getText.ms, () => text.setProperty(hmUI.prop.TEXT, String(getText.fn())));
+  if (getText) {
+    timer.createTimer(getText.ms, getText.ms, () => text.setProperty(hmUI.prop.TEXT, String(getText.fn())));
+  }
 }

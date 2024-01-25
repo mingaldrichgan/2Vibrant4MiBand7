@@ -7,6 +7,7 @@ __$$hmAppManager$$__.currentApp.current.module = DeviceRuntimeCore.WatchFace({
     renderClock(isAOD, isEdit);
     const { widgetKeys, widgetUrls } = isAOD || renderWidgets(isEdit);
     const barUrls = isAOD || renderBars(widgetKeys);
-    if (!isAOD && !isEdit) initTapZones(widgetUrls, barUrls);
+
+    if (!isAOD && !isEdit) renderEventLayer(widgetUrls, barUrls);
   },
 });
