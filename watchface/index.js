@@ -1,7 +1,7 @@
-import { renderBars } from "./render/bars";
-import { renderClock } from "./render/clock";
-import { renderEventLayer } from "./render/events";
-import { renderWidgets } from "./render/widgets";
+import { renderBars } from "../lib/bars";
+import { renderClock } from "../lib/clock";
+import { renderEventLayer } from "../lib/events";
+import { renderWidgets } from "../lib/widgets";
 
 __$$hmAppManager$$__.currentApp.current.module = DeviceRuntimeCore.WatchFace({
   onInit() {
