@@ -1,5 +1,12 @@
 function call(url) {
-  hmApp.startApp(typeof url === "string" ? { url, native: true } : url);
+  switch (typeof url) {
+    case "function":
+      return url();
+    case "string":
+      return hmApp.startApp({ url, native: true });
+    default:
+      return hmApp.startApp(url);
+  }
 }
 
 function changeBrightness(delta) {
